@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
@@ -20,12 +19,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return auth()->check()
-        ? redirect()->route('dashboard')
+        ? redirect()->route('reports.index')
         : redirect()->route('login');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // URL /dashboard dipertahankan sebagai alias yang mengarah ke Reports,
+    // karena dipakai secara internal oleh RouteServiceProvider::HOME
+    // (redirect otomatis setelah login/register/verifikasi email).
+    Route::get('/dashboard', function () {
+        return redirect()->route('reports.index');
+    })->name('dashboard');
 
     Route::resource('issues', IssueController::class)->except(['show']);
     Route::resource('sites', SiteController::class)->except(['show']);

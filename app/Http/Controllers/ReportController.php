@@ -50,7 +50,15 @@ class ReportController extends Controller
         /** @var \Illuminate\Pagination\LengthAwarePaginator $reports */
         $reports->withQueryString();
 
-        return view('reports.index', compact('reports', 'issues', 'sites'));
+        return view('reports.index', [
+            'reports' => $reports,
+            'issues' => $issues,
+            'sites' => $sites,
+            'issueCount' => Issue::count(),
+            'siteCount' => Site::count(),
+            'reportCount' => Report::count(),
+            'latestReports' => Report::with(['issue', 'site'])->latest()->limit(5)->get(),
+        ]);
     }
 
     public function create()
