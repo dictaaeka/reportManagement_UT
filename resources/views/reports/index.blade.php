@@ -18,6 +18,42 @@
             <div class="mb-4 rounded-lg bg-red-50 p-4 text-red-800">{{ session('error') }}</div>
             @endif
 
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="rounded-lg bg-white p-4 sm:p-6 shadow-sm">
+                    <p class="text-xs sm:text-sm font-medium text-gray-500">Total Issues</p>
+                    <p class="mt-2 sm:mt-4 text-xl sm:text-3xl font-semibold text-gray-900">{{ number_format($issueCount) }}</p>
+                </div>
+                <div class="rounded-lg bg-white p-4 sm:p-6 shadow-sm">
+                    <p class="text-xs sm:text-sm font-medium text-gray-500">Total Sites</p>
+                    <p class="mt-2 sm:mt-4 text-xl sm:text-3xl font-semibold text-gray-900">{{ number_format($siteCount) }}</p>
+                </div>
+                <div class="rounded-lg bg-white p-4 sm:p-6 shadow-sm">
+                    <p class="text-xs sm:text-sm font-medium text-gray-500">Total Reports</p>
+                    <p class="mt-2 sm:mt-4 text-xl sm:text-3xl font-semibold text-gray-900">{{ number_format($reportCount) }}</p>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-sm sm:rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Laporan Terbaru</h3>
+                </div>
+                <div class="space-y-4">
+                    @forelse ($latestReports as $latest)
+                    <div class="rounded-lg border border-gray-200 p-4">
+                        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900">{{ $latest->title }}</p>
+                                <p class="text-sm text-gray-600">{{ $latest->issue->name ?? '—' }} / {{ $latest->site->name ?? '—' }}</p>
+                            </div>
+                            <p class="text-sm text-gray-500">{{ $latest->month }}/{{ $latest->year }}</p>
+                        </div>
+                    </div>
+                    @empty
+                    <p class="text-sm text-gray-500">Belum ada laporan yang diunggah.</p>
+                    @endforelse
+                </div>
+            </div>
+
             <div class="bg-white shadow-sm sm:rounded-lg p-6 space-y-6">
                 <form method="GET" action="{{ route('reports.index') }}" class="grid gap-4 lg:grid-cols-5">
                     <div>
