@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SiteRequest;
 use App\Models\Site;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SiteController extends Controller
 {
@@ -41,6 +42,10 @@ class SiteController extends Controller
 
     public function destroy(Site $site)
     {
+        if (Auth::user()?->role !== 'admin') {
+            abort(403);
+        }
+
         if ($site->reports()->exists()) {
             return back()->with('error', 'Site tidak dapat dihapus karena masih digunakan oleh laporan.');
         }

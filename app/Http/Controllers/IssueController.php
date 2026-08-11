@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\IssueRequest;
 use App\Models\Issue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IssueController extends Controller
 {
@@ -41,6 +42,10 @@ class IssueController extends Controller
 
     public function destroy(Issue $issue)
     {
+        if (Auth::user()?->role !== 'admin') {
+            abort(403);
+        }
+
         if ($issue->reports()->exists()) {
             return back()->with('error', 'Issue tidak dapat dihapus karena masih digunakan oleh laporan.');
         }

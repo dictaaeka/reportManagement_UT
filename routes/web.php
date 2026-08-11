@@ -31,6 +31,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('sites', SiteController::class)->except(['show']);
     Route::resource('reports', ReportController::class);
 
+    Route::middleware('admin')->group(function () {
+        Route::resource('issues', IssueController::class)->except(['index', 'show']);
+        Route::resource('sites', SiteController::class)->except(['index', 'show']);
+        Route::resource('reports', ReportController::class)->except(['index', 'show']);
+    });
+
     Route::get('reports/{report}/preview', [ReportController::class, 'preview'])->name('reports.preview');
     Route::get('reports/{report}/download', [ReportController::class, 'download'])->name('reports.download');
 

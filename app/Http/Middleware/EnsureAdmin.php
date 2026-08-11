@@ -15,6 +15,10 @@ class EnsureAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (!$request->user() || !$request->user()->isAdmin()) {
+            abort(403, 'Anda tidak memiliki akses untuk melakukan aksi ini.');
+        }
+
         return $next($request);
     }
 }
