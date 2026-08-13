@@ -45,4 +45,36 @@ class Report extends Model
     {
         return $this->belongsTo(User::class, 'uploader_id');
     }
+
+    /**
+     * Mapping angka bulan (1-12) ke nama bulan Indonesia.
+     * Hanya dipakai untuk tampilan/filter, data di database tetap disimpan sebagai angka.
+     *
+     * @return array<int, string>
+     */
+    public static function monthNames(): array
+    {
+        return [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        ];
+    }
+
+    /**
+     * Nama bulan untuk instance report ini, mengikuti nilai kolom `month`.
+     */
+    public function monthName(): string
+    {
+        return self::monthNames()[$this->month] ?? '—';
+    }
 }
