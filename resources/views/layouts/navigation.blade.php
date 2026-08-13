@@ -44,7 +44,7 @@
                             </span>
                             <span class="text-left leading-tight">
                                 <span class="block text-gray-700">{{ Auth::user()->name }}</span>
-                                <span class="block text-xs text-gray-400">{{ Auth::user()->isAdmin() ? 'Admin' : 'User' }}</span>
+                                <!-- <span class="block text-xs text-gray-400">{{ Auth::user()->isAdmin() ? 'Admin' : 'User' }}</span> -->
                             </span>
 
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
