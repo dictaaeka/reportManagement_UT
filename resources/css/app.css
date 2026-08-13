@@ -1,3 +1,712 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* =========================================================
+   REPORT PAGE
+   ========================================================= */
+
+@layer components {
+
+    /* =====================================================
+       PAGE BACKGROUND
+       ===================================================== */
+
+    .reports-page {
+        background: #f8fafc;
+        min-height: 100%;
+    }
+
+
+    /* =====================================================
+       REPORT HEADER
+       ===================================================== */
+
+    .reports-header {
+        position: relative;
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid #e8edf5;
+        border-radius: 18px;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    }
+
+    .reports-header-icon {
+        width: 52px;
+        height: 52px;
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 14px;
+        background: #eef2ff;
+        color: #4f46e5;
+    }
+
+    .reports-header-title {
+        margin: 0;
+        color: #111827;
+        font-size: 18px;
+        line-height: 1.4;
+        font-weight: 700;
+    }
+
+    .reports-header-description {
+        margin-top: 4px;
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .reports-upload-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        min-height: 42px;
+        padding: 0 18px;
+
+        border-radius: 10px;
+
+        background: #4f46e5;
+        color: #ffffff;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.18);
+
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .reports-upload-button:hover {
+        background: #4338ca;
+        transform: translateY(-1px);
+        box-shadow: 0 7px 16px rgba(79, 70, 229, 0.22);
+    }
+
+
+    /* =====================================================
+       STATISTICS GRID
+       ===================================================== */
+
+    .report-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+        gap: 18px;
+
+        margin-bottom: 24px;
+    }
+
+
+    /* =====================================================
+       STATISTICS CARD
+       ===================================================== */
+
+    .report-stat-card {
+        position: relative;
+        min-height: 112px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 20px;
+
+        overflow: hidden;
+
+        background: #ffffff;
+
+        border: 1px solid #e8edf5;
+        border-radius: 16px;
+
+        box-shadow:
+            0 4px 12px rgba(15, 23, 42, 0.04);
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            border-color 0.25s ease;
+    }
+
+    .report-stat-card:hover {
+        transform: translateY(-3px);
+
+        box-shadow:
+            0 10px 24px rgba(15, 23, 42, 0.08);
+
+        border-color: #dbe3ef;
+    }
+
+
+    /* =====================================================
+       STAT ICON
+       ===================================================== */
+
+    .report-stat-icon {
+        position: relative;
+        z-index: 2;
+
+        width: 52px;
+        height: 52px;
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 14px;
+    }
+
+    .report-stat-icon svg {
+        width: 25px;
+        height: 25px;
+    }
+
+
+    /* Issues */
+
+    .report-stat-icon-issues {
+        background: #eef2ff;
+        color: #4f46e5;
+    }
+
+
+    /* Sites */
+
+    .report-stat-icon-sites {
+        background: #ecfdf5;
+        color: #059669;
+    }
+
+
+    /* Reports */
+
+    .report-stat-icon-reports {
+        background: #fff7ed;
+        color: #ea580c;
+    }
+
+
+    /* =====================================================
+       STAT CONTENT
+       ===================================================== */
+
+    .report-stat-content {
+        position: relative;
+        z-index: 2;
+
+        margin-left: 16px;
+    }
+
+    .report-stat-label {
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 13px;
+        line-height: 1.4;
+        font-weight: 500;
+    }
+
+    .report-stat-number {
+        margin: 4px 0 0;
+
+        color: #0f172a;
+
+        font-size: 28px;
+        line-height: 1.1;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+
+    /* =====================================================
+       STAT DECORATION
+       ===================================================== */
+
+    .report-stat-decoration {
+        position: absolute;
+
+        width: 110px;
+        height: 110px;
+
+        right: -45px;
+        bottom: -55px;
+
+        border-radius: 9999px;
+
+        opacity: 0.7;
+
+        transition:
+            transform 0.4s ease,
+            opacity 0.4s ease;
+    }
+
+    .report-stat-card:hover .report-stat-decoration {
+        transform: scale(1.12);
+        opacity: 1;
+    }
+
+    .report-stat-decoration-issues {
+        background: #eef2ff;
+    }
+
+    .report-stat-decoration-sites {
+        background: #ecfdf5;
+    }
+
+    .report-stat-decoration-reports {
+        background: #fff7ed;
+    }
+
+
+    /* =====================================================
+       RECENT REPORTS CARD
+       ===================================================== */
+
+    .recent-reports-card {
+        background: #ffffff;
+
+        border: 1px solid #e8edf5;
+        border-radius: 18px;
+
+        box-shadow:
+            0 4px 14px rgba(15, 23, 42, 0.04);
+
+        overflow: hidden;
+    }
+
+    .recent-reports-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 20px 24px;
+
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    .recent-reports-title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .recent-reports-icon {
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 11px;
+
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .recent-reports-title {
+        margin: 0;
+
+        color: #111827;
+
+        font-size: 16px;
+        line-height: 1.4;
+        font-weight: 700;
+    }
+
+    .recent-reports-subtitle {
+        margin-top: 2px;
+
+        color: #64748b;
+
+        font-size: 12px;
+    }
+
+    .recent-reports-count {
+        display: inline-flex;
+        align-items: center;
+
+        min-height: 30px;
+        padding: 0 11px;
+
+        border-radius: 9999px;
+
+        background: #eef2ff;
+        color: #4f46e5;
+
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       FILTER AREA
+       ===================================================== */
+
+    .reports-filter-area {
+        padding: 20px 24px;
+
+        background: #fbfcfe;
+
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    .reports-filter-label {
+        display: block;
+
+        margin-bottom: 6px;
+
+        color: #475569;
+
+        font-size: 12px;
+        line-height: 1.4;
+        font-weight: 600;
+    }
+
+    .reports-filter-input,
+    .reports-filter-select {
+        width: 100%;
+        min-height: 42px;
+
+        padding: 0 12px;
+
+        border: 1px solid #d8dee8;
+        border-radius: 9px;
+
+        background: #ffffff;
+        color: #1e293b;
+
+        font-size: 13px;
+
+        outline: none;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .reports-filter-input:focus,
+    .reports-filter-select:focus {
+        border-color: #818cf8;
+
+        box-shadow:
+            0 0 0 3px rgba(99, 102, 241, 0.10);
+    }
+
+    .reports-filter-button {
+        min-height: 42px;
+
+        padding: 0 18px;
+
+        border: 0;
+        border-radius: 9px;
+
+        background: #4f46e5;
+        color: #ffffff;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .reports-filter-button:hover {
+        background: #4338ca;
+        transform: translateY(-1px);
+    }
+
+
+    /* =====================================================
+       TABLE
+       ===================================================== */
+
+    .reports-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .reports-table {
+        width: 100%;
+
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .reports-table thead {
+        background: #f8fafc;
+    }
+
+    .reports-table th {
+        padding: 13px 20px;
+
+        color: #64748b;
+
+        font-size: 11px;
+        line-height: 1.4;
+        font-weight: 700;
+
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+
+        text-align: left;
+
+        white-space: nowrap;
+
+        border-bottom: 1px solid #e8edf5;
+    }
+
+    .reports-table td {
+        padding: 16px 20px;
+
+        color: #475569;
+
+        font-size: 13px;
+        line-height: 1.5;
+
+        border-bottom: 1px solid #f1f5f9;
+
+        vertical-align: middle;
+    }
+
+    .reports-table tbody tr {
+        transition:
+            background-color 0.2s ease;
+    }
+
+    .reports-table tbody tr:hover {
+        background: #f8faff;
+    }
+
+    .reports-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+
+    /* =====================================================
+       TABLE CONTENT
+       ===================================================== */
+
+    .report-title {
+        color: #1e293b;
+
+        font-weight: 600;
+    }
+
+    .report-issue-site {
+        color: #64748b;
+    }
+
+    .report-period-badge {
+        display: inline-flex;
+        align-items: center;
+
+        min-height: 28px;
+        padding: 0 10px;
+
+        border-radius: 8px;
+
+        background: #f1f5f9;
+        color: #475569;
+
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .report-uploader {
+        color: #475569;
+        font-weight: 500;
+    }
+
+
+    /* =====================================================
+       ACTION BUTTONS
+       ===================================================== */
+
+    .report-actions {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .report-action-button {
+        width: 34px;
+        height: 34px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 9px;
+
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .report-action-button:hover {
+        transform: translateY(-1px);
+    }
+
+    .report-action-button svg {
+        width: 17px;
+        height: 17px;
+    }
+
+    .report-action-view {
+        background: #eef2ff;
+        color: #4f46e5;
+    }
+
+    .report-action-view:hover {
+        background: #e0e7ff;
+    }
+
+    .report-action-download {
+        background: #ecfdf5;
+        color: #059669;
+    }
+
+    .report-action-download:hover {
+        background: #d1fae5;
+    }
+
+    .report-action-edit {
+        background: #eff6ff;
+        color: #2563eb;
+    }
+
+    .report-action-edit:hover {
+        background: #dbeafe;
+    }
+
+    .report-action-delete {
+        background: #fef2f2;
+        color: #dc2626;
+        border: 0;
+        cursor: pointer;
+    }
+
+    .report-action-delete:hover {
+        background: #fee2e2;
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+       ===================================================== */
+
+    .reports-empty-state {
+        padding: 48px 24px;
+
+        text-align: center;
+    }
+
+    .reports-empty-icon {
+        width: 48px;
+        height: 48px;
+
+        margin: 0 auto 12px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 14px;
+
+        background: #f1f5f9;
+        color: #94a3b8;
+    }
+
+    .reports-empty-text {
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       PAGINATION
+       ===================================================== */
+
+    .reports-pagination {
+        padding: 16px 24px;
+
+        border-top: 1px solid #eef2f7;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+
+    @media (max-width: 900px) {
+
+        .report-stats-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .recent-reports-header {
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .reports-filter-grid {
+            grid-template-columns: 1fr !important;
+        }
+    }
+
+
+    @media (max-width: 640px) {
+
+        .reports-header {
+            border-radius: 14px;
+        }
+
+        .reports-header-content {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .reports-upload-button {
+            width: 100%;
+        }
+
+        .report-stat-card {
+            min-height: 96px;
+            padding: 17px;
+        }
+
+        .report-stat-number {
+            font-size: 25px;
+        }
+
+        .recent-reports-header {
+            padding: 17px;
+        }
+
+        .reports-filter-area {
+            padding: 17px;
+        }
+
+        .reports-table th,
+        .reports-table td {
+            padding: 13px 15px;
+        }
+    }
+}
