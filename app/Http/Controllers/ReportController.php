@@ -39,7 +39,7 @@ class ReportController extends Controller
         if ($request->filled('search')) {
             $keyword = $request->search;
             $query->where(function ($sub) use ($keyword) {
-                $sub->where('title', 'like', "%{$keyword}%")
+                $sub->where('cust_name', 'like', "%{$keyword}%")
                     ->orWhere('file_name', 'like', "%{$keyword}%")
                     ->orWhereHas('issue', fn($q) => $q->where('name', 'like', "%{$keyword}%"))
                     ->orWhereHas('site', fn($q) => $q->where('name', 'like', "%{$keyword}%"));
@@ -82,7 +82,7 @@ class ReportController extends Controller
             'site_id' => $request->site_id,
             'month' => $request->month,
             'year' => $request->year,
-            'title' => $request->title,
+            'cust_name' => $request->cust_name,
             'file_name' => $originalName,
             'file_path' => $path,
             'mime_type' => $file->getClientMimeType(),
@@ -113,7 +113,7 @@ class ReportController extends Controller
         $report->site_id = $request->site_id;
         $report->month = $request->month;
         $report->year = $request->year;
-        $report->title = $request->title;
+        $report->cust_name = $request->cust_name;
 
         if ($request->hasFile('file')) {
             if (Storage::disk('public')->exists($report->file_path)) {
