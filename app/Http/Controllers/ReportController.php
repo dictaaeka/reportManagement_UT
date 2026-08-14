@@ -6,6 +6,8 @@ use App\Http\Requests\ReportRequest;
 use App\Models\Issue;
 use App\Models\Report;
 use App\Models\Site;
+use App\Models\User;
+use App\Notifications\SystemNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -38,6 +40,7 @@ class ReportController extends Controller
 
         if ($request->filled('search')) {
             $keyword = $request->search;
+
             $query->where(function ($sub) use ($keyword) {
                 $sub->where('cust_name', 'like', "%{$keyword}%")
                     ->orWhere('file_name', 'like', "%{$keyword}%")
@@ -47,6 +50,7 @@ class ReportController extends Controller
         }
 
         $reports = $query->latest()->paginate(12);
+
         /** @var \Illuminate\Pagination\LengthAwarePaginator $reports */
         $reports->withQueryString();
 
@@ -69,15 +73,24 @@ class ReportController extends Controller
         ]);
     }
 
+    /**
+     * Tambah laporan baru
+     */
     public function store(ReportRequest $request)
     {
         $file = $request->file('file');
         $originalName = $file->getClientOriginalName();
+
         $pathPrefix = 'reports';
-        $storedName = now()->timestamp . '_' . Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) . '.' . $file->extension();
+
+        $storedName = now()->timestamp . '_'
+            . Str::slug(pathinfo($originalName, PATHINFO_FILENAME))
+            . '.'
+            . $file->extension();
+
         $path = $file->storeAs($pathPrefix, $storedName, 'public');
 
-        Report::create([
+        $report = Report::create([
             'issue_id' => $request->issue_id,
             'site_id' => $request->site_id,
             'month' => $request->month,
@@ -90,7 +103,43 @@ class ReportController extends Controller
             'uploader_id' => Auth::id(),
         ]);
 
-        return redirect()->route('reports.index')->with('success', 'Laporan berhasil diunggah.');
+        /*
+         * NOTIFICATION UNTUK USER BIASA
+         * Semua user dengan role "user" mendapat pemberitahuan
+         * bahwa ada laporan baru yang tersedia.
+         */
+        $users = User::where('role', 'user')->get();
+
+        foreach ($users as $user) {
+            $user->notify(
+                new SystemNotification(
+                    'new_report_available',
+                    'Laporan baru tersedia',
+                    $report->cust_name
+                )
+            );
+        }
+
+        /*
+         * ACTIVITY NOTIFICATION UNTUK ADMIN
+         * Administrator mendapat informasi bahwa ada user
+         * yang menambahkan laporan.
+         */
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'add_report',
+                    Auth::user()->name . ' menambahkan laporan',
+                    $report->cust_name
+                )
+            );
+        }
+
+        return redirect()
+            ->route('reports.index')
+            ->with('success', 'Laporan berhasil diunggah.');
     }
 
     public function show(Report $report)
@@ -107,8 +156,13 @@ class ReportController extends Controller
         ]);
     }
 
+    /**
+     * Edit laporan
+     */
     public function update(ReportRequest $request, Report $report)
     {
+        $oldCustName = $report->cust_name;
+
         $report->issue_id = $request->issue_id;
         $report->site_id = $request->site_id;
         $report->month = $request->month;
@@ -122,7 +176,12 @@ class ReportController extends Controller
 
             $file = $request->file('file');
             $originalName = $file->getClientOriginalName();
-            $storedName = now()->timestamp . '_' . Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) . '.' . $file->extension();
+
+            $storedName = now()->timestamp . '_'
+                . Str::slug(pathinfo($originalName, PATHINFO_FILENAME))
+                . '.'
+                . $file->extension();
+
             $path = $file->storeAs('reports', $storedName, 'public');
 
             $report->file_name = $originalName;
@@ -133,23 +192,95 @@ class ReportController extends Controller
 
         $report->save();
 
-        return redirect()->route('reports.index')->with('success', 'Laporan berhasil diperbarui.');
+        /*
+         * NOTIFICATION UNTUK USER BIASA
+         * Memberitahu bahwa laporan telah diperbarui.
+         */
+        $users = User::where('role', 'user')->get();
+
+        foreach ($users as $user) {
+            $user->notify(
+                new SystemNotification(
+                    'report_updated',
+                    'Laporan diperbarui',
+                    $report->cust_name
+                )
+            );
+        }
+
+        /*
+         * ACTIVITY NOTIFICATION UNTUK ADMIN
+         */
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'edit_report',
+                    Auth::user()->name . ' mengedit laporan',
+                    $report->cust_name
+                )
+            );
+        }
+
+        return redirect()
+            ->route('reports.index')
+            ->with('success', 'Laporan berhasil diperbarui.');
     }
 
+    /**
+     * Hapus laporan
+     */
     public function destroy(Report $report)
     {
         if (Auth::id() !== $report->uploader_id && Auth::user()?->role !== 'admin') {
             abort(403);
         }
 
+        $custName = $report->cust_name;
+
         $disk = Storage::disk('public');
+
         if ($disk->exists($report->file_path)) {
             $disk->delete($report->file_path);
         }
 
         $report->delete();
 
-        return redirect()->route('reports.index')->with('success', 'Laporan berhasil dihapus.');
+        /*
+         * NOTIFICATION UNTUK USER BIASA
+         * Memberitahu bahwa laporan sudah dihapus.
+         */
+        $users = User::where('role', 'user')->get();
+
+        foreach ($users as $user) {
+            $user->notify(
+                new SystemNotification(
+                    'report_deleted',
+                    'Laporan telah dihapus',
+                    $custName
+                )
+            );
+        }
+
+        /*
+         * ACTIVITY NOTIFICATION UNTUK ADMIN
+         */
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'delete_report',
+                    Auth::user()->name . ' menghapus laporan',
+                    $custName
+                )
+            );
+        }
+
+        return redirect()
+            ->route('reports.index')
+            ->with('success', 'Laporan berhasil dihapus.');
     }
 
     public function preview(Report $report)

@@ -17,7 +17,7 @@ class Report extends Model
         'site_id',
         'month',
         'year',
-        'title',
+        'cust_name',
         'file_name',
         'file_path',
         'mime_type',

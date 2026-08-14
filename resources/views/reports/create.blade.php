@@ -171,26 +171,26 @@
                     <!-- Basic Information -->
                     <div class="grid gap-5 sm:grid-cols-2">
 
-                        <!-- Title -->
+                        <!-- Customer Name -->
                         <div>
 
-                            <label for="title"
+                            <label for="cust-name"
                                 class="block text-sm font-medium text-gray-700">
-                                Judul Laporan
+                                Nama Customer
                             </label>
 
                             <input
-                                id="title"
+                                id="cust-name"
                                 type="text"
-                                name="title"
-                                value="{{ old('title') }}"
-                                placeholder="Masukkan judul laporan"
+                                name="cust_name"
+                                value="{{ old('cust_name') }}"
+                                placeholder="Masukkan nama customer"
                                 class="mt-2 block w-full rounded-lg border-gray-300
                                        shadow-sm text-sm
                                        focus:border-indigo-500 focus:ring-indigo-500"
                                 required>
 
-                            @error('title')
+                            @error('cust_name')
                             <p class="mt-1.5 text-sm text-red-600">
                                 {{ $message }}
                             </p>

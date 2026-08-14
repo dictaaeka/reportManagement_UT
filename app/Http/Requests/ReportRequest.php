@@ -18,7 +18,7 @@ class ReportRequest extends FormRequest
             'site_id' => ['required', 'exists:sites,id'],
             'month' => ['required', 'integer', 'between:1,12'],
             'year' => ['required', 'integer', 'between:1900,' . date('Y')],
-            'title' => ['required', 'string', 'max:255'],
+            'cust_name' => ['required', 'string', 'max:255'],
         ];
 
         if ($this->isMethod('post')) {
