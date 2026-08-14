@@ -23,6 +23,14 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
+        User::firstOrCreate([
+            'email' => 'user@local.test',
+        ], [
+            'name' => 'User Biasa',
+            'password' => bcrypt('secret123'),
+            'role' => 'user',
+        ]);
+
         Issue::firstOrCreate(['name' => 'General'], ['description' => 'Laporan umum mengenai kegiatan perusahaan.']);
         Site::firstOrCreate(['name' => 'Head Office'], ['location' => 'Jakarta']);
     }

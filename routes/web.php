@@ -19,9 +19,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return auth()->check()
-        ? redirect()->route('reports.index')
-        : redirect()->route('login');
+    $user = auth()->user();
+
+    if (!$user) {
+        return redirect()->route('login');
+    }
+
+    return redirect()->route('reports.index');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -31,14 +35,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return redirect()->route('reports.index');
     })->name('dashboard');
 
-    // Issues
-    Route::resource('issues', IssueController::class)->except(['show']);
-
-    // Sites
-    Route::resource('sites', SiteController::class)->except(['show']);
-
     // Reports
     Route::resource('reports', ReportController::class);
+
+    Route::middleware('admin')->group(function () {
+        // Issues
+        Route::resource('issues', IssueController::class)->except(['show']);
+
+        // Sites
+        Route::resource('sites', SiteController::class)->except(['show']);
+    });
 
     /*
     |--------------------------------------------------------------------------

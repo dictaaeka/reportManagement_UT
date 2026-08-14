@@ -1036,7 +1036,7 @@
         letter-spacing: 0.04em;
         text-transform: uppercase;
 
-        text-align: left;
+        text-align: center;
 
         white-space: nowrap;
 
@@ -1055,6 +1055,7 @@
         border-bottom: 1px solid #f1f5f9;
 
         vertical-align: middle;
+        text-align: center;
     }
 
 
@@ -1125,15 +1126,15 @@
 
 
     .report-action-button {
-        width: 34px;
-        height: 34px;
-
         display: inline-flex;
         align-items: center;
         justify-content: center;
-
-        border-radius: 9px;
-
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
         transition:
             background-color 0.2s ease,
             transform 0.2s ease;
@@ -1146,56 +1147,53 @@
 
 
     .report-action-button svg {
-        width: 17px;
-        height: 17px;
+        display: none;
     }
 
 
     .report-action-view {
-        background: #eef2ff;
-        color: #4f46e5;
+        background: #3b82f6;
+        color: white;
     }
 
 
     .report-action-view:hover {
-        background: #e0e7ff;
+        background: #2563eb;
     }
 
 
     .report-action-download {
-        background: #ecfdf5;
-        color: #059669;
+        background: #10b981;
+        color: white;
     }
 
 
     .report-action-download:hover {
-        background: #d1fae5;
+        background: #059669;
     }
 
 
     .report-action-edit {
-        background: #eff6ff;
-        color: #2563eb;
+        background: #f59e0b;
+        color: white;
     }
 
 
     .report-action-edit:hover {
-        background: #dbeafe;
+        background: #d97706;
     }
 
 
     .report-action-delete {
-        background: #fef2f2;
-        color: #dc2626;
-
+        background: #ef4444;
+        color: white;
         border: 0;
-
         cursor: pointer;
     }
 
 
     .report-action-delete:hover {
-        background: #fee2e2;
+        background: #dc2626;
     }
 
 
@@ -1384,7 +1382,7 @@
         font-weight: 700;
         letter-spacing: 0.04em;
         text-transform: uppercase;
-        text-align: left;
+        text-align: center;
         white-space: nowrap;
 
         border-bottom: 1px solid #e8edf5;
@@ -1400,6 +1398,7 @@
 
         border-bottom: 1px solid #f1f5f9;
         vertical-align: middle;
+        text-align: center;
     }
 
     .data-management-table tbody tr {

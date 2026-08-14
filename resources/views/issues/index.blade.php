@@ -71,9 +71,9 @@
                         <table class="data-management-table">
                             <thead>
                                 <tr>
-                                    <th>Nama</th>
-                                    <th>Deskripsi</th>
-                                    <th class="text-right">Aksi</th>
+                                    <th style="text-align: center;">Nama</th>
+                                    <th style="text-align: center;">Deskripsi</th>
+                                    <th style="text-align: center;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,23 +81,18 @@
                                 <tr>
                                     <td class="data-management-resource-name">{{ $issue->name }}</td>
                                     <td class="data-management-resource-description">{{ $issue->description ?: '-' }}</td>
-                                    <td>
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="{{ route('issues.edit', $issue) }}" class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100 hover:text-indigo-700" aria-label="Edit issue">
-                                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652l-9.193 9.193a4.5 4.5 0 01-1.897 1.13l-3.119.936.936-3.119a4.5 4.5 0 011.13-1.897l9.193-9.193z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.125L16.875 4.5" />
-                                                </svg>
+                                    <td style="text-align: center;">
+                                        <div class="flex items-center justify-center gap-2">
+                                            <a href="{{ route('issues.edit', $issue) }}" class="inline-flex px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium transition hover:bg-indigo-700" aria-label="Edit issue">
+                                                Edit
                                             </a>
 
                                             <form action="{{ route('issues.destroy', $issue) }}" method="POST" onsubmit="return confirm('Hapus issue ini?');">
                                                 @csrf
                                                 @method('DELETE')
 
-                                                <button type="submit" class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-600 transition hover:bg-red-100 hover:text-red-700" aria-label="Hapus issue">
-                                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12m-10 0v10m4-10v10m4-10v10M9 7V4h6v3m-9 0h12" />
-                                                    </svg>
+                                                <button type="submit" class="inline-flex px-3 py-2 rounded-lg bg-red-600 text-white text-sm font-medium transition hover:bg-red-700" aria-label="Hapus issue">
+                                                    Hapus
                                                 </button>
                                             </form>
                                         </div>

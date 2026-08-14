@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Notifications\SystemNotification;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,7 +30,19 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $user = Auth::user();
+
+        if (! $user instanceof \App\Models\User) {
+            abort(401);
+        }
+
+        $user->notify(new SystemNotification(
+            'login_success',
+            'Login berhasil',
+            'Selamat datang, ' . $user->name . '.'
+        ));
+
+        return redirect()->intended(route('reports.index'));
     }
 
     /**
