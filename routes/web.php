@@ -58,24 +58,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Admin Routes
-    |--------------------------------------------------------------------------
-    */
-
-    Route::middleware('admin')->group(function () {
-
-        Route::resource('issues', IssueController::class)
-            ->except(['index', 'show']);
-
-        Route::resource('sites', SiteController::class)
-            ->except(['index', 'show']);
-
-        Route::resource('reports', ReportController::class)
-            ->except(['index', 'show']);
-    });
-
-    /*
-    |--------------------------------------------------------------------------
     | Report Preview & Download
     |--------------------------------------------------------------------------
     */
