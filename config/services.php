@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'ghostscript' => [
+        // Windows (dev): path lengkap ke gswin64c.exe
+        // Linux/VPS (production): biasanya cukup 'gs' kalau sudah ada di PATH
+        'path' => env('GHOSTSCRIPT_PATH', 'gs'),
+    ],
+
 ];

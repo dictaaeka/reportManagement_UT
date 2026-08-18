@@ -9,6 +9,7 @@ use App\Models\Report;
 use App\Models\Site;
 use App\Models\User;
 use App\Notifications\SystemNotification;
+use App\Services\PdfCompressorService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -108,6 +109,11 @@ class ReportController extends Controller
             'public'
         );
 
+        // Kompres PDF supaya lebih hemat space (aman kalau Ghostscript belum ada).
+        $absolutePath = Storage::disk('public')->path($path);
+        (new PdfCompressorService())->compress($absolutePath);
+        $finalSize = filesize($absolutePath);
+
         $report = Report::create([
             'issue_id' => $request->issue_id,
             'site_id' => $request->site_id,
@@ -117,7 +123,7 @@ class ReportController extends Controller
             'file_name' => $originalName,
             'file_path' => $path,
             'mime_type' => $file->getClientMimeType(),
-            'file_size' => $file->getSize(),
+            'file_size' => $finalSize,
             'uploader_id' => Auth::id(),
         ]);
 
@@ -222,10 +228,14 @@ class ReportController extends Controller
                 'public'
             );
 
+            // Kompres PDF supaya lebih hemat space (aman kalau Ghostscript belum ada).
+            $absolutePath = Storage::disk('public')->path($path);
+            (new PdfCompressorService())->compress($absolutePath);
+
             $report->file_name = $originalName;
             $report->file_path = $path;
             $report->mime_type = $file->getClientMimeType();
-            $report->file_size = $file->getSize();
+            $report->file_size = filesize($absolutePath);
         }
 
         $report->save();
