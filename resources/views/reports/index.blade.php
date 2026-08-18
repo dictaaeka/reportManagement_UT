@@ -666,10 +666,33 @@
 
                             <tr>
 
-                                <td
-                                    colspan="5"
-                                    class="px-6 py-8 text-center text-sm text-gray-500">
-                                    Tidak ada laporan.
+                                <td colspan="5" style="padding: 0;">
+
+                                    <div class="reports-empty-state">
+
+                                        <div class="reports-empty-icon">
+
+                                            <svg
+                                                class="h-6 w-6"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke-width="1.6"
+                                                stroke="currentColor"
+                                                aria-hidden="true">
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                            </svg>
+
+                                        </div>
+
+                                        <p class="reports-empty-text">
+                                            Tidak ada laporan yang cocok dengan filter ini.
+                                        </p>
+
+                                    </div>
+
                                 </td>
 
                             </tr>

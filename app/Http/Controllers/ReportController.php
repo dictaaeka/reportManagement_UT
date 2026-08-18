@@ -181,6 +181,10 @@ class ReportController extends Controller
 
     public function edit(Report $report)
     {
+        if (Auth::id() !== $report->uploader_id && Auth::user()?->role !== 'admin') {
+            abort(403);
+        }
+
         $report->load([
             'issue',
             'site',
@@ -200,6 +204,10 @@ class ReportController extends Controller
      */
     public function update(ReportRequest $request, Report $report)
     {
+        if (Auth::id() !== $report->uploader_id && Auth::user()?->role !== 'admin') {
+            abort(403);
+        }
+        
         $report->issue_id = $request->issue_id;
         $report->site_id = $request->site_id;
         $report->month = $request->month;

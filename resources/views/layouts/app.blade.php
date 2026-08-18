@@ -45,25 +45,24 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.getElementById('theme-toggle');
-            const sunIcon = document.getElementById('theme-icon-sun');
-            const moonIcon = document.getElementById('theme-icon-moon');
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggles = document.querySelectorAll('.js-theme-toggle');
 
-            if (!toggle) return;
+        if (!toggles.length) return;
 
-            function updateThemeIcon() {
-                const isDark = document.documentElement.classList.contains('dark');
+        function updateThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
 
-                if (isDark) {
-                    sunIcon.classList.remove('hidden');
-                    moonIcon.classList.add('hidden');
-                } else {
-                    sunIcon.classList.add('hidden');
-                    moonIcon.classList.remove('hidden');
-                }
-            }
+            document.querySelectorAll('.theme-icon-sun').forEach(function(icon) {
+                icon.classList.toggle('hidden', !isDark);
+            });
 
+            document.querySelectorAll('.theme-icon-moon').forEach(function(icon) {
+                icon.classList.toggle('hidden', isDark);
+            });
+        }
+
+        toggles.forEach(function(toggle) {
             toggle.addEventListener('click', function() {
                 const isDark = document.documentElement.classList.toggle('dark');
 
@@ -72,12 +71,13 @@
                     isDark ? 'dark' : 'light'
                 );
 
-                updateThemeIcon();
+                updateThemeIcons();
             });
-
-            updateThemeIcon();
         });
-    </script>
+
+        updateThemeIcons();
+    });
+</script>
 </body>
 
 </html>

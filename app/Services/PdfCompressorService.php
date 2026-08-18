@@ -69,17 +69,26 @@ class PdfCompressorService
         $binary = config('services.ghostscript.path');
 
         try {
-            $process = new Process([
-                $binary,
-                '-sDEVICE=pdfwrite',
-                '-dCompatibilityLevel=1.4',
-                "-dPDFSETTINGS=/{$this->quality}",
-                '-dNOPAUSE',
-                '-dQUIET',
-                '-dBATCH',
-                '-sOutputFile=' . $tempOutput,
-                $absolutePath,
-            ]);
+            $tempDir = sys_get_temp_dir();
+
+            $process = new Process(
+                [
+                    $binary,
+                    '-sDEVICE=pdfwrite',
+                    '-dCompatibilityLevel=1.4',
+                    "-dPDFSETTINGS=/{$this->quality}",
+                    '-dNOPAUSE',
+                    '-dQUIET',
+                    '-dBATCH',
+                    '-sOutputFile=' . $tempOutput,
+                    $absolutePath,
+                ],
+                $tempDir,
+                [
+                    'TEMP' => $tempDir,
+                    'TMP' => $tempDir,
+                ]
+            );
 
             $process->setTimeout(120);
             $process->run();
