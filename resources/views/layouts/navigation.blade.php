@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-200 shadow-sm">
+<nav x-data="{ open: false }" class="app-navbar bg-white border-b border-gray-200 shadow-sm">
     <!-- Primary Navigation -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -9,7 +9,7 @@
                 <a href="{{ route('reports.index') }}"
                     class="flex items-center transition-opacity hover:opacity-80">
 
-                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <x-application-logo class="block h-9 w-auto fill-current app-logo" />
 
                 </a>
             </div>
@@ -148,6 +148,26 @@
             <div class="hidden sm:flex items-center justify-end gap-3">
 
                 <!-- =====================================================
+                     THEME
+                      ===================================================== -->
+
+                <button
+                    type="button"
+                    id="theme-toggle"
+                    class="theme-toggle-button"
+                    aria-label="Toggle dark mode">
+                    <svg id="theme-icon-sun" class="hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 100 10 5 5 0 000-10z" />
+                    </svg>
+
+                    <svg id="theme-icon-moon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                    </svg>
+                </button>
+
+                <!-- =====================================================
                      NOTIFICATION
                      ===================================================== -->
 
@@ -215,25 +235,17 @@
                         x-transition
                         style="display: none;"
                         @click.outside="notificationOpen = false"
-                        class="absolute right-0 mt-3 w-[380px]
-                               bg-white
-                               rounded-2xl
-                               border border-gray-200
-                               shadow-xl
-                               z-50
-                               overflow-hidden">
+                        class="notification-dropdown absolute right-0 mt-3 w-[380px] bg-white rounded-2xl border border-gray-200 shadow-xl z-50 overflow-hidden">
 
                         <!-- Header -->
-                        <div class="flex items-center justify-between
-                                    px-5 py-4
-                                    border-b border-gray-100">
+                        <div class="notification-header flex items-center justify-between px-5 py-4">
 
                             <div>
-                                <h3 class="text-sm font-semibold text-gray-800">
+                                <h3 class="notification-title text-sm font-semibold">
                                     Notifikasi
                                 </h3>
 
-                                <p class="text-xs text-gray-400 mt-0.5">
+                                <p class="notification-subtitle text-xs mt-0.5">
                                     Aktivitas terbaru
                                 </p>
                             </div>
@@ -290,13 +302,10 @@
 
                                 <button
                                     type="submit"
-                                    class="w-full text-left
-                                               px-5 py-4
-                                               border-b border-gray-50
-                                               transition
-                                               {{ $isUnread
-                                                    ? 'bg-indigo-50/50 hover:bg-indigo-50'
-                                                    : 'bg-white hover:bg-gray-50' }}">
+                                    class="notification-item w-full text-left
+                                            px-5 py-4
+                                            transition
+                                            {{ $isUnread ? 'notification-unread' : '' }}">
 
                                     <div class="flex items-start gap-3">
 
@@ -306,43 +315,42 @@
                                                        w-9 h-9
                                                        rounded-full
                                                        flex items-center justify-center
-                                                       {{ match($type) {
+                                                       {{ match($type) { 
+                                                            'login_success'
+                                                                => 'bg-emerald-50 text-emerald-600',
 
-    'login_success'
-        => 'bg-emerald-50 text-emerald-600',
+                                                            'download_report'
+                                                                => 'bg-purple-50 text-purple-600',
 
-    'download_report'
-        => 'bg-purple-50 text-purple-600',
+                                                            'new_report_available',
+                                                            'add_report',
+                                                            'add_issue',
+                                                            'add_site',
+                                                            'add_customer'
+                                                                => 'bg-indigo-50 text-indigo-600',
 
-    'new_report_available',
-    'add_report',
-    'add_issue',
-    'add_site',
-    'add_customer'
-        => 'bg-indigo-50 text-indigo-600',
+                                                            'report_updated',
+                                                            'edit_report',
+                                                            'edit_issue',
+                                                            'edit_site',
+                                                            'edit_customer'
+                                                                => 'bg-blue-50 text-blue-600',
 
-    'report_updated',
-    'edit_report',
-    'edit_issue',
-    'edit_site',
-    'edit_customer'
-        => 'bg-blue-50 text-blue-600',
+                                                            'report_deleted',
+                                                            'delete_report',
+                                                            'delete_issue',
+                                                            'delete_site',
+                                                            'delete_customer'
+                                                                => 'bg-red-50 text-red-600',
 
-    'report_deleted',
-    'delete_report',
-    'delete_issue',
-    'delete_site',
-    'delete_customer'
-        => 'bg-red-50 text-red-600',
+                                                            default
+                                                                => 'bg-gray-100 text-gray-500',
 
-    default
-        => 'bg-gray-100 text-gray-500',
+                                                            } }}">
 
-} }}">
 
                                             @if (
-                                            in_array(
-                                            $type,
+                                            in_array($type,
                                             [
                                             'login_success',
                                             'new_report_available',
@@ -445,14 +453,8 @@
 
                                             <div class="flex items-start justify-between gap-2">
 
-                                                <p
-                                                    class="text-sm
-                                                               {{ $isUnread
-                                                                    ? 'font-semibold text-gray-800'
-                                                                    : 'font-medium text-gray-700' }}">
-                                                    {{ $message }}
-                                                </p>
-
+                                                <p class="notification-message text-sm
+                                                        {{ $isUnread ? 'font-semibold' : 'font-medium' }}">
 
                                                 @if ($isUnread)
 
@@ -470,14 +472,14 @@
 
                                             @if ($detail)
 
-                                            <p class="mt-1 text-xs text-gray-600 truncate">
+                                            <p class="notification-detail mt-1 text-xs truncate">
                                                 {{ $detail }}
                                             </p>
 
                                             @endif
 
 
-                                            <p class="js-local-time mt-1.5 text-[11px] text-gray-400" data-timestamp="{{ $notification->created_at->toIso8601String() }}">
+                                            <p class="notification-time js-local-time mt-1.5 text-[11px]" data-timestamp="{{ $notification->created_at->toIso8601String() }}">
                                                 {{ $notification->created_at->format('d M Y • H:i') }}
                                             </p>
 
@@ -546,9 +548,7 @@
                     <x-slot name="trigger">
 
                         <button
-                            class="inline-flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-sm font-medium
-                                   text-gray-600 hover:bg-gray-50 hover:text-gray-900
-                                   focus:outline-none transition">
+                            class="user-menu-button inline-flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-sm font-medium focus:outline-none transition">
 
                             <span
                                 class="flex h-9 w-9 items-center justify-center rounded-full
@@ -580,7 +580,7 @@
 
                             <span class="hidden lg:block text-left leading-tight">
 
-                                <span class="block text-sm font-medium text-gray-700">
+                                <span class="user-menu-name block text-sm font-medium">
                                     {{ Auth::user()->name }}
                                 </span>
 
@@ -676,7 +676,7 @@
     <!-- Mobile Navigation -->
     <div
         :class="{'block': open, 'hidden': ! open}"
-        class="hidden sm:hidden border-t border-gray-100 bg-white">
+        class="mobile-navigation hidden sm:hidden border-t border-gray-100 bg-white">
 
         <div class="px-4 pt-3 pb-3 space-y-1">
 

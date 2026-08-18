@@ -1774,3 +1774,745 @@
         }
     }
 }
+
+/* =========================================================
+   DARK THEME
+   ========================================================= */
+
+html.dark {
+    color-scheme: dark;
+}
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+.dark .app-page-background {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+.dark .app-page-header {
+    background: #111827;
+    border-color: #1f2937;
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.dark .app-navbar {
+    background: #111827;
+    border-bottom: 1px solid #1f2937;
+}
+
+.dark .app-logo {
+    color: #f8fafc;
+}
+
+
+/* =========================================================
+   THEME BUTTON
+   ========================================================= */
+
+.theme-toggle-button {
+    width: 40px;
+    height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #475569;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.theme-toggle-button:hover {
+    background: #f8fafc;
+    color: #1e293b;
+    transform: translateY(-1px);
+}
+
+.dark .theme-toggle-button {
+    background: #1f2937;
+    border-color: #374151;
+    color: #fbbf24;
+}
+
+.dark .theme-toggle-button:hover {
+    background: #273449;
+    border-color: #4b5563;
+}
+
+
+/* =========================================================
+   NAVIGATION LINKS
+   ========================================================= */
+
+.dark nav .text-gray-600 {
+    color: #cbd5e1 !important;
+}
+
+.dark nav .hover\:bg-gray-50:hover {
+    background: #1f2937 !important;
+}
+
+.dark nav .hover\:text-gray-900:hover {
+    color: #f8fafc !important;
+}
+
+.dark nav .text-gray-400 {
+    color: #94a3b8 !important;
+}
+
+.dark nav .bg-indigo-50 {
+    background: #312e81 !important;
+}
+
+.dark nav .text-indigo-700 {
+    color: #c7d2fe !important;
+}
+
+.dark nav .text-indigo-600 {
+    color: #a5b4fc !important;
+}
+
+
+/* =========================================================
+   REPORT PAGE
+   ========================================================= */
+
+.dark .reports-page {
+    background: #0f172a;
+}
+
+
+/* =========================================================
+   REPORT HEADER
+   ========================================================= */
+
+.dark .reports-header {
+    background: #111827;
+    border-color: #1f2937;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.dark .reports-header-icon {
+    background: #312e81;
+    color: #a5b4fc;
+}
+
+.dark .reports-header-title {
+    color: #f8fafc;
+}
+
+.dark .reports-header-description {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   UPLOAD / EDIT CARD
+   ========================================================= */
+
+.dark .reports-upload-card {
+    background: #111827;
+    border-color: #1f2937;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.dark .reports-upload-card-header {
+    border-bottom-color: #1f2937;
+}
+
+.dark .reports-upload-card-icon {
+    background: #312e81;
+    color: #a5b4fc;
+}
+
+.dark .reports-upload-card-title {
+    color: #f8fafc;
+}
+
+.dark .reports-upload-card-description {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.dark .reports-upload-label {
+    color: #cbd5e1;
+}
+
+.dark .reports-upload-input,
+.dark .reports-upload-select {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f8fafc;
+}
+
+.dark .reports-upload-input::placeholder {
+    color: #64748b;
+}
+
+.dark .reports-upload-input:hover,
+.dark .reports-upload-select:hover {
+    border-color: #4b5563;
+}
+
+.dark .reports-upload-input:focus,
+.dark .reports-upload-select:focus {
+    border-color: #818cf8;
+
+    box-shadow:
+        0 0 0 3px rgba(99, 102, 241, 0.18);
+}
+
+
+/* =========================================================
+   FILE UPLOAD
+   ========================================================= */
+
+.dark .reports-upload-file {
+    background: #172033;
+    border-color: #374151;
+    color: #94a3b8;
+}
+
+.dark .reports-upload-file:hover {
+    background: #1e293b;
+    border-color: #818cf8;
+}
+
+.dark .reports-upload-file-icon {
+    background: #312e81;
+    color: #a5b4fc;
+}
+
+.dark .reports-upload-file-title {
+    color: #cbd5e1;
+}
+
+.dark .reports-upload-file-name {
+    color: #a5b4fc;
+}
+
+.dark .reports-upload-file-description {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+   ========================================================= */
+
+.dark .reports-upload-actions {
+    border-top-color: #1f2937;
+}
+
+.dark .reports-cancel-button {
+    background: #1f2937;
+    border-color: #374151;
+    color: #cbd5e1;
+}
+
+.dark .reports-cancel-button:hover {
+    background: #273449;
+    border-color: #4b5563;
+    color: #f8fafc;
+}
+
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.dark .report-stat-card {
+    background: #111827;
+    border-color: #1f2937;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.dark .report-stat-card:hover {
+    border-color: #374151;
+
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.dark .report-stat-label {
+    color: #94a3b8;
+}
+
+.dark .report-stat-number {
+    color: #f8fafc;
+}
+
+.dark .report-stat-icon-issues {
+    background: #312e81;
+    color: #a5b4fc;
+}
+
+.dark .report-stat-icon-sites {
+    background: #064e3b;
+    color: #6ee7b7;
+}
+
+.dark .report-stat-icon-reports {
+    background: #7c2d12;
+    color: #fdba74;
+}
+
+.dark .report-stat-decoration-issues {
+    background: #312e81;
+}
+
+.dark .report-stat-decoration-sites {
+    background: #064e3b;
+}
+
+.dark .report-stat-decoration-reports {
+    background: #7c2d12;
+}
+
+
+/* =========================================================
+   RECENT REPORTS
+   ========================================================= */
+
+.dark .recent-reports-card {
+    background: #111827;
+    border-color: #1f2937;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.dark .recent-reports-header {
+    border-bottom-color: #1f2937;
+}
+
+.dark .recent-reports-icon {
+    background: #1f2937;
+    color: #94a3b8;
+}
+
+.dark .recent-reports-title {
+    color: #f8fafc;
+}
+
+.dark .recent-reports-subtitle {
+    color: #64748b;
+}
+
+.dark .recent-reports-count {
+    background: #312e81;
+    color: #c7d2fe;
+}
+
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+.dark .reports-filter-area {
+    background: #172033;
+    border-bottom-color: #1f2937;
+}
+
+.dark .reports-filter-label {
+    color: #cbd5e1;
+}
+
+.dark .reports-filter-input,
+.dark .reports-filter-select {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f8fafc;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.dark .reports-table thead {
+    background: #172033;
+}
+
+.dark .reports-table th {
+    color: #94a3b8;
+    border-bottom-color: #1f2937;
+}
+
+.dark .reports-table td {
+    color: #cbd5e1;
+    border-bottom-color: #1f2937;
+}
+
+.dark .reports-table tbody tr:hover {
+    background: #172033;
+}
+
+.dark .report-title {
+    color: #f8fafc;
+}
+
+.dark .report-issue-site {
+    color: #94a3b8;
+}
+
+.dark .report-period-badge {
+    background: #1f2937;
+    color: #cbd5e1;
+}
+
+.dark .report-uploader {
+    color: #cbd5e1;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.dark .reports-empty-icon {
+    background: #1f2937;
+    color: #64748b;
+}
+
+.dark .reports-empty-text {
+    color: #94a3b8;
+}
+
+.dark .reports-pagination {
+    border-top-color: #1f2937;
+}
+
+
+/* =========================================================
+   DATA MANAGEMENT
+   ========================================================= */
+
+.dark .data-management-header,
+.dark .data-management-card,
+.dark .data-management-section {
+    background: #111827;
+    border-color: #1f2937;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.dark .data-management-header-icon,
+.dark .data-management-card-icon {
+    background: #312e81;
+    color: #a5b4fc;
+}
+
+.dark .data-management-header-title,
+.dark .data-management-card-title {
+    color: #f8fafc;
+}
+
+.dark .data-management-header-description,
+.dark .data-management-card-description {
+    color: #94a3b8;
+}
+
+.dark .data-management-card-header {
+    border-bottom-color: #1f2937;
+}
+
+.dark .data-management-table thead {
+    background: #172033;
+}
+
+.dark .data-management-table th {
+    color: #94a3b8;
+    border-bottom-color: #1f2937;
+}
+
+.dark .data-management-table td {
+    color: #cbd5e1;
+    border-bottom-color: #1f2937;
+}
+
+.dark .data-management-table tbody tr:hover {
+    background: #172033;
+}
+
+.dark .data-management-resource-name {
+    color: #f8fafc;
+}
+
+.dark .data-management-resource-description {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   DATA MANAGEMENT FORM
+   ========================================================= */
+
+.dark .data-management-label {
+    color: #cbd5e1;
+}
+
+.dark .data-management-input,
+.dark .data-management-textarea {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f8fafc;
+}
+
+.dark .data-management-input::placeholder,
+.dark .data-management-textarea::placeholder {
+    color: #64748b;
+}
+
+.dark .data-management-input:hover,
+.dark .data-management-textarea:hover {
+    border-color: #4b5563;
+}
+
+.dark .data-management-input:focus,
+.dark .data-management-textarea:focus {
+    border-color: #818cf8;
+
+    box-shadow:
+        0 0 0 3px rgba(99, 102, 241, 0.18);
+}
+
+.dark .data-management-form-actions {
+    border-top-color: #1f2937;
+}
+
+.dark .data-management-cancel-button {
+    background: #1f2937;
+    border-color: #374151;
+    color: #cbd5e1;
+}
+
+.dark .data-management-cancel-button:hover {
+    background: #273449;
+    border-color: #4b5563;
+    color: #f8fafc;
+}
+
+.dark .data-management-empty-icon {
+    background: #1f2937;
+    color: #64748b;
+}
+
+.dark .data-management-empty-title {
+    color: #e5e7eb;
+}
+
+.dark .data-management-empty-text {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   NOTIFICATION
+   ========================================================= */
+
+.notification-dropdown {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.dark .notification-dropdown {
+    background: #111827;
+    border-color: #374151;
+}
+
+.dark .notification-header {
+    border-bottom: 1px solid #1f2937;
+}
+
+.dark .notification-title {
+    color: #f8fafc;
+}
+
+.dark .notification-subtitle {
+    color: #64748b;
+}
+
+.dark .notification-item {
+    border-bottom: 1px solid #1f2937;
+    background: #111827;
+}
+
+.dark .notification-item:hover {
+    background: #172033;
+}
+
+.dark .notification-item.notification-unread {
+    background: #1e1b4b;
+}
+
+.dark .notification-message {
+    color: #f1f5f9;
+}
+
+.dark .notification-detail {
+    color: #94a3b8;
+}
+
+.dark .notification-time {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   NOTIFICATION BUTTON
+   ========================================================= */
+
+.dark .notification-dropdown~* {
+    color: #cbd5e1;
+}
+
+
+/* =========================================================
+   USER MENU
+   ========================================================= */
+
+.user-menu-button {
+    color: #475569;
+}
+
+.user-menu-button:hover {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+.dark .user-menu-button {
+    color: #cbd5e1;
+}
+
+.dark .user-menu-button:hover {
+    background: #1f2937;
+    color: #f8fafc;
+}
+
+.dark .user-menu-name {
+    color: #e5e7eb;
+}
+
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
+
+.dark .mobile-navigation {
+    background: #111827;
+    border-top-color: #1f2937;
+}
+
+.dark .mobile-navigation .border-t {
+    border-color: #1f2937 !important;
+}
+
+.dark .mobile-navigation .text-gray-600 {
+    color: #cbd5e1 !important;
+}
+
+.dark .mobile-navigation .text-gray-800 {
+    color: #f8fafc !important;
+}
+
+.dark .mobile-navigation .text-gray-500 {
+    color: #94a3b8 !important;
+}
+
+.dark .mobile-navigation .hover\:bg-gray-100:hover {
+    background: #1f2937 !important;
+}
+
+/* =========================================================
+   FLASH MESSAGES
+   ========================================================= */
+
+.dark .bg-green-50 {
+    background: #052e1f !important;
+    color: #86efac !important;
+    border-color: #14532d !important;
+}
+
+.dark .bg-red-50 {
+    background: #450a0a !important;
+    color: #fca5a5 !important;
+    border-color: #7f1d1d !important;
+}
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+.dark [role="navigation"] {
+    color: #cbd5e1;
+}
+
+.dark [role="navigation"] span,
+.dark [role="navigation"] a {
+    background: #1f2937 !important;
+    border-color: #374151 !important;
+    color: #cbd5e1 !important;
+}
+
+.dark [role="navigation"] a:hover {
+    background: #273449 !important;
+}
+
+
+/* =========================================================
+   SMOOTH THEME TRANSITION
+   ========================================================= */
+
+body,
+.app-page-background,
+.app-navbar,
+.reports-header,
+.reports-upload-card,
+.report-stat-card,
+.recent-reports-card,
+.data-management-header,
+.data-management-card,
+.data-management-section,
+.reports-table,
+.reports-upload-input,
+.reports-upload-select,
+.data-management-input,
+.data-management-textarea,
+.notification-dropdown,
+.notification-item {
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+}
