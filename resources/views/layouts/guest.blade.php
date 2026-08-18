@@ -10,40 +10,160 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700|fraunces:600,700&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme');
+
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center bg-slate-100 px-4 py-8">
-        <div class="mb-6">
-            <a href="/" class="inline-flex items-center justify-center rounded-2xl border border-indigo-100 bg-white p-3 shadow-sm transition hover:shadow-md">
-                <x-application-logo class="h-16 w-16 fill-current text-indigo-600" />
-            </a>
-        </div>
+<body class="font-sans antialiased">
 
-        <div class="w-full sm:max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
-            <div class="border-b border-slate-200 bg-slate-50 px-6 py-5">
-                <div class="flex items-center gap-3">
-                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600">
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zm-9.249 13.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+    <div class="auth-page">
+        <div class="auth-shell">
+
+            {{-- ============================================
+                 BRAND PANEL
+            ============================================= --}}
+            <div class="auth-brand-panel">
+
+                <span class="auth-brand-eyebrow">Report Management</span>
+
+                <h1 class="auth-brand-heading">
+                    {{ $brandHeading ?? 'Setiap laporan, satu tempat masuk.' }}
+                </h1>
+
+                <p class="auth-brand-description">
+                    {{ $brandDescription ?? 'Pantau laporan PDF per site, issue, dan periode dalam satu dashboard yang rapi.' }}
+                </p>
+
+                <div class="auth-brand-tags">
+
+                    <span class="auth-brand-tag auth-brand-tag-issues">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                        </svg>
+                        Issues
+                    </span>
+
+                    <span class="auth-brand-tag auth-brand-tag-sites">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 10.5-7.5 10.5S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                        </svg>
+                        Sites
+                    </span>
+
+                    <span class="auth-brand-tag auth-brand-tag-reports">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                        </svg>
+                        Reports
+                    </span>
+
+                </div>
+
+                <div class="auth-illustration">
+
+                    <div class="auth-illustration-card auth-illustration-card-back"></div>
+                    <div class="auth-illustration-card auth-illustration-card-mid"></div>
+
+                    <div class="auth-illustration-card auth-illustration-card-front">
+                        <div class="flex items-center gap-2" style="margin-bottom: 8px;">
+                            <div class="auth-illustration-dot"></div>
+                            <div class="auth-illustration-line" style="width: 90px;"></div>
+                        </div>
+                        <div class="auth-illustration-line-sub" style="width: 130px;"></div>
+                        <div class="auth-illustration-line-sub" style="width: 100px;"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {{-- ============================================
+                 FORM PANEL
+            ============================================= --}}
+            <div class="auth-form-panel">
+
+                <button
+                    type="button"
+                    id="theme-toggle"
+                    class="theme-toggle-button auth-theme-toggle"
+                    aria-label="Ganti mode terang / gelap">
+
+                    <svg id="theme-icon-sun" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                    </svg>
+
+                    <svg id="theme-icon-moon" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                    </svg>
+
+                </button>
+
+                <div class="auth-logo-row">
+                    <div class="auth-logo-icon">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                         </svg>
                     </div>
-                    <div>
-                        <h1 class="text-lg font-semibold text-slate-900">Masuk ke Report Management</h1>
-                        <p class="text-xs text-slate-500">Kelola laporan dan data operasional</p>
-                    </div>
+                    <span class="auth-wordmark">Report Management</span>
                 </div>
+
+                <h2 class="auth-heading">{{ $title ?? 'Masuk ke akun kamu' }}</h2>
+                <p class="auth-subheading">{{ $description ?? 'Kelola laporan dan data operasional' }}</p>
+
+                {{ $slot }}
+
             </div>
 
-            <div class="px-6 py-6">
-                {{ $slot }}
-            </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('theme-icon-sun');
+            const moonIcon = document.getElementById('theme-icon-moon');
+
+            if (!toggle) return;
+
+            function updateThemeIcon() {
+                const isDark = document.documentElement.classList.contains('dark');
+
+                if (isDark) {
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                } else {
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                }
+            }
+
+            toggle.addEventListener('click', function() {
+                const isDark = document.documentElement.classList.toggle('dark');
+
+                localStorage.setItem(
+                    'theme',
+                    isDark ? 'dark' : 'light'
+                );
+
+                updateThemeIcon();
+            });
+
+            updateThemeIcon();
+        });
+    </script>
+
 </body>
 
 </html>

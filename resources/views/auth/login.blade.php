@@ -1,7 +1,10 @@
 <x-guest-layout>
+    <x-slot name="title">Masuk ke akun kamu</x-slot>
+    <x-slot name="description">Kelola laporan dan data operasional</x-slot>
+
     <x-auth-session-status class="mb-5" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}" class="space-y-5">
+    <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
 
         <div>
@@ -11,6 +14,7 @@
                 type="email"
                 name="email"
                 value="{{ old('email') }}"
+                placeholder="nama@perusahaan.com"
                 class="data-management-input"
                 required
                 autofocus
@@ -24,6 +28,7 @@
                 id="password"
                 type="password"
                 name="password"
+                placeholder="••••••••"
                 class="data-management-input"
                 required
                 autocomplete="current-password">
@@ -31,14 +36,14 @@
         </div>
 
         <div class="flex items-center justify-between gap-3 pt-1">
-            <label for="remember_me" class="inline-flex items-center gap-2 text-sm text-slate-600">
-                <input id="remember_me" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span>{{ __('Remember me') }}</span>
+            <label for="remember_me" class="auth-remember-label">
+                <input id="remember_me" type="checkbox" name="remember">
+                <span>{{ __('Ingat saya') }}</span>
             </label>
 
             @if (Route::has('password.request'))
-            <a class="text-sm font-medium text-indigo-600 hover:text-indigo-700" href="{{ route('password.request') }}">
-                {{ __('Forgot your password?') }}
+            <a class="auth-forgot-link" href="{{ route('password.request') }}">
+                {{ __('Lupa password?') }}
             </a>
             @endif
         </div>
@@ -49,4 +54,11 @@
             </button>
         </div>
     </form>
+
+    @if (Route::has('register'))
+    <p class="auth-footer-text">
+        {{ __('Belum punya akun?') }}
+        <a href="{{ route('register') }}" class="auth-footer-link">{{ __('Daftar') }}</a>
+    </p>
+    @endif
 </x-guest-layout>
