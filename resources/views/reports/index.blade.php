@@ -413,14 +413,29 @@
                                     Semua bulan
                                 </option>
 
-                                @foreach (\App\Models\Report::monthNames() as $number => $name)
+                                @php
+                                $months = [
+                                1 => 'Januari',
+                                2 => 'Februari',
+                                3 => 'Maret',
+                                4 => 'April',
+                                5 => 'Mei',
+                                6 => 'Juni',
+                                7 => 'Juli',
+                                8 => 'Agustus',
+                                9 => 'September',
+                                10 => 'Oktober',
+                                11 => 'November',
+                                12 => 'Desember',
+                                ];
+                                @endphp
 
+                                @foreach ($months as $value => $label)
                                 <option
-                                    value="{{ $number }}"
-                                    @selected(request('month')==$number)>
-                                    {{ $name }}
+                                    value="{{ $value }}"
+                                    {{ request('month') == $value ? 'selected' : '' }}>
+                                    {{ $label }}
                                 </option>
-
                                 @endforeach
 
                             </select>
@@ -525,7 +540,7 @@
                                 <td>
 
                                     <span class="report-title">
-                                        {{ $report->cust_name }}
+                                        {{ $report->customer?->name ?? '-' }}
                                     </span>
 
                                 </td>
@@ -545,12 +560,27 @@
 
                                 {{-- PERIOD --}}
                                 <td>
+                                    @php
+                                    $months = [
+                                    1 => 'Januari',
+                                    2 => 'Februari',
+                                    3 => 'Maret',
+                                    4 => 'April',
+                                    5 => 'Mei',
+                                    6 => 'Juni',
+                                    7 => 'Juli',
+                                    8 => 'Agustus',
+                                    9 => 'September',
+                                    10 => 'Oktober',
+                                    11 => 'November',
+                                    12 => 'Desember',
+                                    ];
+                                    @endphp
 
                                     <span class="report-period-badge">
-                                        {{ $report->monthName() }}
+                                        {{ $months[$report->month] ?? '-' }}
                                         {{ $report->year }}
                                     </span>
-
                                 </td>
 
 

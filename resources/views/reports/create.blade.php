@@ -174,23 +174,31 @@
                         <!-- Customer Name -->
                         <div>
 
-                            <label for="cust-name"
+                            <label for="customer_id"
                                 class="block text-sm font-medium text-gray-700">
                                 Nama Customer
                             </label>
 
-                            <input
-                                id="cust-name"
-                                type="text"
-                                name="cust_name"
-                                value="{{ old('cust_name') }}"
-                                placeholder="Masukkan nama customer"
+                            <select
+                                id="customer_id"
+                                name="customer_id"
                                 class="mt-2 block w-full rounded-lg border-gray-300
                                        shadow-sm text-sm
                                        focus:border-indigo-500 focus:ring-indigo-500"
                                 required>
 
-                            @error('cust_name')
+                                <option value="">Pilih Customer</option>
+
+                                @foreach ($customers as $customer)
+                                <option
+                                    value="{{ $customer->id }}"
+                                    {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
+                                    {{ $customer->id }}
+                                </option>
+                                @endforeach
+                            </select>
+
+                            @error('customer_id')
                             <p class="mt-1.5 text-sm text-red-600">
                                 {{ $message }}
                             </p>
@@ -294,7 +302,6 @@
 
                                 <input
                                     id="month"
-                                    type="number"
                                     name="month"
                                     value="{{ old('month') }}"
                                     min="1"
@@ -304,7 +311,34 @@
                                            shadow-sm text-sm
                                            focus:border-indigo-500 focus:ring-indigo-500"
                                     required>
+                                <option value="">Pilih Bulan</option>
 
+                                @php
+                                $months = [
+                                1 => 'Januari',
+                                2 => 'Februari',
+                                3 => 'Maret',
+                                4 => 'April',
+                                5 => 'Mei',
+                                6 => 'Juni',
+                                7 => 'Juli',
+                                8 => 'Agustus',
+                                9 => 'September',
+                                10 => 'Oktober',
+                                11 => 'November',
+                                12 => 'Desember',
+                                ];
+                                @endphp
+
+                                @foreach ($months as $value => $label)
+                                <option
+                                    value="{{ $value }}"
+                                    {{ old('month') == $value ? 'selected' : '' }}>
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                                </select>
+                                
                                 @error('month')
                                 <p class="mt-1.5 text-sm text-red-600">
                                     {{ $message }}

@@ -36,11 +36,14 @@ class AuthenticatedSessionController extends Controller
             abort(401);
         }
 
-        $user->notify(new SystemNotification(
-            'login_success',
-            'Login berhasil',
-            'Selamat datang, ' . $user->name . '.'
-        ));
+        $user->notify(
+            new SystemNotification(
+                'login_success',
+                'Login berhasil',
+                'Anda berhasil login ke Report Management.'
+            )
+        );
+
 
         return redirect()->intended(route('reports.index'));
     }

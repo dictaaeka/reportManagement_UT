@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SiteRequest;
 use App\Models\Site;
+use App\Models\User;
+use App\Notifications\SystemNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,11 +22,30 @@ class SiteController extends Controller
         return view('sites.create');
     }
 
-    public function store(SiteRequest $request)
+    public function store(Request $request)
     {
-        Site::create($request->validated());
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:sites,name'],
+        ]);
 
-        return redirect()->route('sites.index')->with('success', 'Site berhasil dibuat.');
+        $site = Site::create($validated);
+
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'add_site',
+                    Auth::user()->name . ' menambahkan site',
+                    $site->name
+                )
+            );
+        }
+
+        return redirect()
+            ->route('sites.index')
+            ->with('success', 'Site berhasil ditambahkan.');
     }
 
     public function edit(Site $site)
@@ -33,25 +53,58 @@ class SiteController extends Controller
         return view('sites.edit', compact('site'));
     }
 
-    public function update(SiteRequest $request, Site $site)
+    public function update(Request $request, Site $site)
     {
-        $site->update($request->validated());
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:sites,name,' . $site->id,
+            ],
+        ]);
 
-        return redirect()->route('sites.index')->with('success', 'Site berhasil diperbarui.');
+        $site->update($validated);
+
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'edit_site',
+                    Auth::user()->name . ' mengedit site',
+                    $site->name
+                )
+            );
+        }
+
+        return redirect()
+            ->route('sites.index')
+            ->with('success', 'Site berhasil diperbarui.');
     }
 
     public function destroy(Site $site)
     {
-        if (Auth::user()?->role !== 'admin') {
-            abort(403);
-        }
-
-        if ($site->reports()->exists()) {
-            return back()->with('error', 'Site tidak dapat dihapus karena masih digunakan oleh laporan.');
-        }
+        $siteName = $site->name;
 
         $site->delete();
 
-        return redirect()->route('sites.index')->with('success', 'Site berhasil dihapus.');
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'delete_site',
+                    Auth::user()->name . ' menghapus site',
+                    $siteName
+                )
+            );
+        }
+
+        return redirect()
+            ->route('sites.index')
+            ->with('success', 'Site berhasil dihapus.');
     }
 }

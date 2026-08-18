@@ -147,24 +147,31 @@
                             <div class="reports-upload-field">
 
                                 <label
-                                    for="cust_name"
+                                    for="customer_id"
                                     class="reports-upload-label">
                                     Nama Customer
                                 </label>
 
-                                <input
-                                    id="cust_name"
-                                    type="text"
-                                    name="cust_name"
-                                    value="{{ old('cust_name', $report->cust_name) }}"
-                                    placeholder="Masukkan nama customer"
-                                    class="reports-upload-input"
+                                <select
+                                    id="customer_id"
+                                    name="customer_id"
+                                    class="data-management-input"
                                     required>
+                                    <option value="">Pilih Customer</option>
 
-                                @error('cust_name')
-                                    <p class="reports-upload-error">
-                                        {{ $message }}
-                                    </p>
+                                    @foreach ($customers as $customer)
+                                    <option
+                                        value="{{ $customer->id }}"
+                                        {{ old('customer_id', $report->customer_id) == $customer->id ? 'selected' : '' }}>
+                                        {{ $customer->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+
+                                @error('customer_id')
+                                <p class="reports-upload-error">
+                                    {{ $message }}
+                                </p>
                                 @enderror
 
                             </div>
@@ -191,20 +198,20 @@
 
                                     @foreach ($issues as $issue)
 
-                                        <option
-                                            value="{{ $issue->id }}"
-                                            @selected(old('issue_id', $report->issue_id) == $issue->id)>
-                                            {{ $issue->name }}
-                                        </option>
+                                    <option
+                                        value="{{ $issue->id }}"
+                                        @selected(old('issue_id', $report->issue_id) == $issue->id)>
+                                        {{ $issue->name }}
+                                    </option>
 
                                     @endforeach
 
                                 </select>
 
                                 @error('issue_id')
-                                    <p class="reports-upload-error">
-                                        {{ $message }}
-                                    </p>
+                                <p class="reports-upload-error">
+                                    {{ $message }}
+                                </p>
                                 @enderror
 
                             </div>
@@ -231,20 +238,20 @@
 
                                     @foreach ($sites as $site)
 
-                                        <option
-                                            value="{{ $site->id }}"
-                                            @selected(old('site_id', $report->site_id) == $site->id)>
-                                            {{ $site->name }}
-                                        </option>
+                                    <option
+                                        value="{{ $site->id }}"
+                                        @selected(old('site_id', $report->site_id) == $site->id)>
+                                        {{ $site->name }}
+                                    </option>
 
                                     @endforeach
 
                                 </select>
 
                                 @error('site_id')
-                                    <p class="reports-upload-error">
-                                        {{ $message }}
-                                    </p>
+                                <p class="reports-upload-error">
+                                    {{ $message }}
+                                </p>
                                 @enderror
 
                             </div>
@@ -264,21 +271,43 @@
                                             Bulan
                                         </label>
 
-                                        <input
+                                        <select
                                             id="month"
-                                            type="number"
                                             name="month"
-                                            value="{{ old('month', $report->month) }}"
-                                            min="1"
-                                            max="12"
-                                            placeholder="1–12"
-                                            class="reports-upload-input"
+                                            class="data-management-input"
                                             required>
+                                            <option value="">Pilih Bulan</option>
+
+                                            @php
+                                            $months = [
+                                            1 => 'Januari',
+                                            2 => 'Februari',
+                                            3 => 'Maret',
+                                            4 => 'April',
+                                            5 => 'Mei',
+                                            6 => 'Juni',
+                                            7 => 'Juli',
+                                            8 => 'Agustus',
+                                            9 => 'September',
+                                            10 => 'Oktober',
+                                            11 => 'November',
+                                            12 => 'Desember',
+                                            ];
+                                            @endphp
+
+                                            @foreach ($months as $value => $label)
+                                            <option
+                                                value="{{ $value }}"
+                                                {{ old('month', $report->month) == $value ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                            @endforeach
+                                        </select>
 
                                         @error('month')
-                                            <p class="reports-upload-error">
-                                                {{ $message }}
-                                            </p>
+                                        <p class="reports-upload-error">
+                                            {{ $message }}
+                                        </p>
                                         @enderror
 
                                     </div>
@@ -305,9 +334,9 @@
                                             required>
 
                                         @error('year')
-                                            <p class="reports-upload-error">
-                                                {{ $message }}
-                                            </p>
+                                        <p class="reports-upload-error">
+                                            {{ $message }}
+                                        </p>
                                         @enderror
 
                                     </div>
@@ -385,9 +414,9 @@
 
 
                             @error('file')
-                                <p class="reports-upload-error">
-                                    {{ $message }}
-                                </p>
+                            <p class="reports-upload-error">
+                                {{ $message }}
+                            </p>
                             @enderror
 
                         </div>

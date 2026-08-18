@@ -105,6 +105,40 @@
                     <span>Sites</span>
 
                 </a>
+
+                <!-- Customers -->
+                <a href="{{ route('customers.index') }}"
+                    class="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition
+        {{ request()->routeIs('customers.*')
+            ? 'bg-indigo-50 text-indigo-700'
+            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+
+                    <svg class="h-[18px] w-[18px] transition
+            {{ request()->routeIs('customers.*') ? 'text-indigo-600' : 'text-gray-400 group-hover:text-gray-600' }}"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.8"
+                        stroke="currentColor"
+                        aria-hidden="true">
+
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M17 20h5v-2a4 4 0 00-4-4h-1" />
+
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 20H4v-2a4 4 0 014-4h1" />
+
+                        <circle cx="9" cy="7" r="4" />
+
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15 3.5a4 4 0 010 7" />
+                    </svg>
+
+                    <span>Customers</span>
+                </a>
                 @endif
 
             </div>
@@ -273,19 +307,50 @@
                                                        rounded-full
                                                        flex items-center justify-center
                                                        {{ match($type) {
-                                                            'login_success' => 'bg-emerald-50 text-emerald-600',
-                                                            'report_updated' => 'bg-blue-50 text-blue-600',
-                                                            'report_deleted' => 'bg-red-50 text-red-600',
-                                                            'add_report' => 'bg-indigo-50 text-indigo-600',
-                                                            'edit_report' => 'bg-blue-50 text-blue-600',
-                                                            'delete_report' => 'bg-red-50 text-red-600',
-                                                            default => 'bg-gray-100 text-gray-500',
-                                                       } }}">
+
+    'login_success'
+        => 'bg-emerald-50 text-emerald-600',
+
+    'download_report'
+        => 'bg-purple-50 text-purple-600',
+
+    'new_report_available',
+    'add_report',
+    'add_issue',
+    'add_site',
+    'add_customer'
+        => 'bg-indigo-50 text-indigo-600',
+
+    'report_updated',
+    'edit_report',
+    'edit_issue',
+    'edit_site',
+    'edit_customer'
+        => 'bg-blue-50 text-blue-600',
+
+    'report_deleted',
+    'delete_report',
+    'delete_issue',
+    'delete_site',
+    'delete_customer'
+        => 'bg-red-50 text-red-600',
+
+    default
+        => 'bg-gray-100 text-gray-500',
+
+} }}">
 
                                             @if (
                                             in_array(
                                             $type,
-                                            ['login_success', 'new_report_available', 'add_report']
+                                            [
+                                            'login_success',
+                                            'new_report_available',
+                                            'add_report',
+                                            'add_issue',
+                                            'add_site',
+                                            'add_customer'
+                                            ]
                                             )
                                             )
 
@@ -332,7 +397,11 @@
                                             @elseif (
                                             in_array(
                                             $type,
-                                            ['report_deleted', 'delete_report']
+                                            [ 'report_deleted',
+                                            'delete_report',
+                                            'delete_issue',
+                                            'delete_site',
+                                            'delete_customer']
                                             )
                                             )
 
@@ -639,6 +708,15 @@
                         ? 'bg-indigo-50 text-indigo-700'
                         : 'text-gray-600 hover:bg-gray-50' }}">
                 <span>Sites</span>
+            </a>
+
+            <a
+                href="{{ route('customers.index') }}"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
+                    {{ request()->routeIs('customers.*')
+                    ? 'bg-indigo-50 text-indigo-700'
+                    : 'text-gray-600 hover:bg-gray-50' }}">
+                <span>Customers</span>
             </a>
             @endif
 

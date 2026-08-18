@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Sites
         Route::resource('sites', SiteController::class)->except(['show']);
+
+        // Customers
+        Route::resource('customers', CustomerController::class)->except(['show']);
     });
 
     /*

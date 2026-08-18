@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Issue;
 use App\Models\Site;
 use App\Models\User;
+use App\Models\Customer;
 
 class Report extends Model
 {
@@ -17,7 +18,7 @@ class Report extends Model
         'site_id',
         'month',
         'year',
-        'cust_name',
+        'customer_id',
         'file_name',
         'file_path',
         'mime_type',
@@ -44,6 +45,11 @@ class Report extends Model
     public function uploader()
     {
         return $this->belongsTo(User::class, 'uploader_id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 
     /**

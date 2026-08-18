@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\User;
+use App\Notifications\SystemNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -31,12 +34,27 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:customers',
+            'name' => ['required', 'string', 'max:255', 'unique:customers,name'],
         ]);
 
-        Customer::create($validated);
+        $customer = Customer::create($validated);
 
-        return redirect()->route('customers.index')->with('success', 'Customer berhasil ditambahkan.');
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'add_customer',
+                    Auth::user()->name . ' menambahkan customer',
+                    $customer->name
+                )
+            );
+        }
+
+        return redirect()
+            ->route('customers.index')
+            ->with('success', 'Customer berhasil ditambahkan.');
     }
 
     /**
@@ -53,21 +71,55 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:customers,name,' . $customer->id,
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:customers,name,' . $customer->id,
+            ],
         ]);
 
         $customer->update($validated);
 
-        return redirect()->route('customers.index')->with('success', 'Customer berhasil diperbarui.');
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'edit_customer',
+                    Auth::user()->name . ' mengedit customer',
+                    $customer->name
+                )
+            );
+        }
+
+        return redirect()
+            ->route('customers.index')
+            ->with('success', 'Customer berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Customer $customer)
     {
+        $customerName = $customer->name;
+
         $customer->delete();
 
-        return redirect()->route('customers.index')->with('success', 'Customer berhasil dihapus.');
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'delete_customer',
+                    Auth::user()->name . ' menghapus customer',
+                    $customerName
+                )
+            );
+        }
+
+        return redirect()
+            ->route('customers.index')
+            ->with('success', 'Customer berhasil dihapus.');
     }
 }

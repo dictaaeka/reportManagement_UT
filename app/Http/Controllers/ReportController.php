@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReportRequest;
+use App\Models\Customer;
 use App\Models\Issue;
 use App\Models\Report;
 use App\Models\Site;
@@ -19,8 +20,9 @@ class ReportController extends Controller
     {
         $issues = Issue::orderBy('name')->get();
         $sites = Site::orderBy('name')->get();
+        $customers = Customer::orderBy('name')->get();
 
-        $query = Report::with(['issue', 'site', 'uploader']);
+        $query = Report::with(['issue', 'site', 'customer', 'uploader']);
 
         if ($request->filled('issue')) {
             $query->where('issue_id', $request->issue);
@@ -42,10 +44,16 @@ class ReportController extends Controller
             $keyword = $request->search;
 
             $query->where(function ($sub) use ($keyword) {
-                $sub->where('cust_name', 'like', "%{$keyword}%")
-                    ->orWhere('file_name', 'like', "%{$keyword}%")
-                    ->orWhereHas('issue', fn($q) => $q->where('name', 'like', "%{$keyword}%"))
-                    ->orWhereHas('site', fn($q) => $q->where('name', 'like', "%{$keyword}%"));
+                $sub->where('file_name', 'like', "%{$keyword}%")
+                    ->orWhereHas('customer', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    })
+                    ->orWhereHas('issue', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    })
+                    ->orWhereHas('site', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
             });
         }
 
@@ -58,10 +66,15 @@ class ReportController extends Controller
             'reports' => $reports,
             'issues' => $issues,
             'sites' => $sites,
+            'customers' => $customers,
             'issueCount' => Issue::count(),
             'siteCount' => Site::count(),
             'reportCount' => Report::count(),
-            'latestReports' => Report::with(['issue', 'site'])->latest()->limit(5)->get(),
+            'latestReports' => Report::with([
+                'issue',
+                'site',
+                'customer',
+            ])->latest()->limit(5)->get(),
         ]);
     }
 
@@ -70,6 +83,7 @@ class ReportController extends Controller
         return view('reports.create', [
             'issues' => Issue::orderBy('name')->get(),
             'sites' => Site::orderBy('name')->get(),
+            'customers' => Customer::orderBy('name')->get(),
         ]);
     }
 
@@ -88,20 +102,25 @@ class ReportController extends Controller
             . '.'
             . $file->extension();
 
-        $path = $file->storeAs($pathPrefix, $storedName, 'public');
+        $path = $file->storeAs(
+            'reports',
+            $storedName,
+            'public'
+        );
 
         $report = Report::create([
             'issue_id' => $request->issue_id,
             'site_id' => $request->site_id,
+            'customer_id' => $request->customer_id,
             'month' => $request->month,
             'year' => $request->year,
-            'cust_name' => $request->cust_name,
             'file_name' => $originalName,
             'file_path' => $path,
             'mime_type' => $file->getClientMimeType(),
             'file_size' => $file->getSize(),
             'uploader_id' => Auth::id(),
         ]);
+
 
         /*
          * NOTIFICATION UNTUK USER BIASA
@@ -115,7 +134,7 @@ class ReportController extends Controller
                 new SystemNotification(
                     'new_report_available',
                     'Laporan baru tersedia',
-                    $report->cust_name
+                    $report->customer?->name ?? '-'
                 )
             );
         }
@@ -132,7 +151,7 @@ class ReportController extends Controller
                 new SystemNotification(
                     'add_report',
                     Auth::user()->name . ' menambahkan laporan',
-                    $report->cust_name
+                    $report->customer?->name ?? '-'
                 )
             );
         }
@@ -144,15 +163,29 @@ class ReportController extends Controller
 
     public function show(Report $report)
     {
+        $report->load([
+            'issue',
+            'site',
+            'customer',
+            'uploader',
+        ]);
+
         return view('reports.show', compact('report'));
     }
 
     public function edit(Report $report)
     {
+        $report->load([
+            'issue',
+            'site',
+            'customer',
+        ]);
+
         return view('reports.edit', [
             'report' => $report,
             'issues' => Issue::orderBy('name')->get(),
             'sites' => Site::orderBy('name')->get(),
+            'customers' => Customer::orderBy('name')->get(),
         ]);
     }
 
@@ -161,16 +194,17 @@ class ReportController extends Controller
      */
     public function update(ReportRequest $request, Report $report)
     {
-        $oldCustName = $report->cust_name;
-
         $report->issue_id = $request->issue_id;
         $report->site_id = $request->site_id;
         $report->month = $request->month;
         $report->year = $request->year;
-        $report->cust_name = $request->cust_name;
+        $report->customer_id = $request->customer_id;
 
         if ($request->hasFile('file')) {
-            if (Storage::disk('public')->exists($report->file_path)) {
+            if (
+                $report->file_path &&
+                Storage::disk('public')->exists($report->file_path)
+            ) {
                 Storage::disk('public')->delete($report->file_path);
             }
 
@@ -182,7 +216,11 @@ class ReportController extends Controller
                 . '.'
                 . $file->extension();
 
-            $path = $file->storeAs('reports', $storedName, 'public');
+            $path = $file->storeAs(
+                'reports',
+                $storedName,
+                'public'
+            );
 
             $report->file_name = $originalName;
             $report->file_path = $path;
@@ -203,7 +241,7 @@ class ReportController extends Controller
                 new SystemNotification(
                     'report_updated',
                     'Laporan diperbarui',
-                    $report->cust_name
+                    $report->customer?->name ?? '-'
                 )
             );
         }
@@ -218,7 +256,7 @@ class ReportController extends Controller
                 new SystemNotification(
                     'edit_report',
                     Auth::user()->name . ' mengedit laporan',
-                    $report->cust_name
+                    $report->customer?->name ?? '-'
                 )
             );
         }
@@ -237,11 +275,14 @@ class ReportController extends Controller
             abort(403);
         }
 
-        $custName = $report->cust_name;
+        $customerName = $report->customer?->name ?? '-';
 
         $disk = Storage::disk('public');
 
-        if ($disk->exists($report->file_path)) {
+        if (
+            $report->file_path &&
+            $disk->exists($report->file_path)
+        ) {
             $disk->delete($report->file_path);
         }
 
@@ -258,7 +299,7 @@ class ReportController extends Controller
                 new SystemNotification(
                     'report_deleted',
                     'Laporan telah dihapus',
-                    $custName
+                    $customerName
                 )
             );
         }
@@ -273,7 +314,7 @@ class ReportController extends Controller
                 new SystemNotification(
                     'delete_report',
                     Auth::user()->name . ' menghapus laporan',
-                    $custName
+                    $customerName
                 )
             );
         }
@@ -304,6 +345,18 @@ class ReportController extends Controller
             abort(404);
         }
 
-        return response()->download($path, $report->file_name);
+        // NOTIFICATION UNTUK USER YANG MELAKUKAN DOWNLOAD
+        Auth::user()->notify(
+            new SystemNotification(
+                'download_report',
+                'Laporan diunduh',
+                $report->customer?->name ?? '-'
+            )
+        );
+
+        return response()->download(
+            $path,
+            $report->file_name
+        );
     }
 }

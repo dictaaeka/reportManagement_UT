@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IssueRequest;
 use App\Models\Issue;
+use App\Models\User;
+use App\Notifications\SystemNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,11 +23,30 @@ class IssueController extends Controller
         return view('issues.create');
     }
 
-    public function store(IssueRequest $request)
+     public function store(Request $request)
     {
-        Issue::create($request->validated());
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:issues,name'],
+        ]);
 
-        return redirect()->route('issues.index')->with('success', 'Issue berhasil dibuat.');
+        $issue = Issue::create($validated);
+
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'add_issue',
+                    Auth::user()->name . ' menambahkan issue',
+                    $issue->name
+                )
+            );
+        }
+
+        return redirect()
+            ->route('issues.index')
+            ->with('success', 'Issue berhasil ditambahkan.');
     }
 
     public function edit(Issue $issue)
@@ -33,25 +54,58 @@ class IssueController extends Controller
         return view('issues.edit', compact('issue'));
     }
 
-    public function update(IssueRequest $request, Issue $issue)
+     public function update(Request $request, Issue $issue)
     {
-        $issue->update($request->validated());
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:issues,name,' . $issue->id,
+            ],
+        ]);
 
-        return redirect()->route('issues.index')->with('success', 'Issue berhasil diperbarui.');
+        $issue->update($validated);
+
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'edit_issue',
+                    Auth::user()->name . ' mengedit issue',
+                    $issue->name
+                )
+            );
+        }
+
+        return redirect()
+            ->route('issues.index')
+            ->with('success', 'Issue berhasil diperbarui.');
     }
 
     public function destroy(Issue $issue)
     {
-        if (Auth::user()?->role !== 'admin') {
-            abort(403);
-        }
-
-        if ($issue->reports()->exists()) {
-            return back()->with('error', 'Issue tidak dapat dihapus karena masih digunakan oleh laporan.');
-        }
+        $issueName = $issue->name;
 
         $issue->delete();
 
-        return redirect()->route('issues.index')->with('success', 'Issue berhasil dihapus.');
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'delete_issue',
+                    Auth::user()->name . ' menghapus issue',
+                    $issueName
+                )
+            );
+        }
+
+        return redirect()
+            ->route('issues.index')
+            ->with('success', 'Issue berhasil dihapus.');
     }
 }
