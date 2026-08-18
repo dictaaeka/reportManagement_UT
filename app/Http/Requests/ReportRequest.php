@@ -67,7 +67,7 @@ class ReportRequest extends FormRequest
 
             'file.required' => 'File laporan wajib diunggah.',
             'file.mimes' => 'File laporan harus berupa PDF.',
-            'file.max' => 'Ukuran file maksimal 20 MB.',
+            'file.max' => 'Ukuran file maksimal 10 MB.',
         ];
     }
 }

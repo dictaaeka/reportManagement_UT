@@ -155,7 +155,7 @@
                                 <select
                                     id="customer_id"
                                     name="customer_id"
-                                    class="data-management-input"
+                                    class="reports-upload-select"
                                     required>
                                     <option value="">Pilih Customer</option>
 
@@ -274,7 +274,7 @@
                                         <select
                                             id="month"
                                             name="month"
-                                            class="data-management-input"
+                                            class="reports-upload-select"
                                             required>
                                             <option value="">Pilih Bulan</option>
 

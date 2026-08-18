@@ -118,229 +118,82 @@
 
 
             <!-- Upload Card -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="reports-upload-card">
                 <!-- Card Header -->
-                <div class="px-6 py-5 border-b border-gray-100">
+                <div class="reports-upload-card-header">
 
-                    <div class="flex items-center gap-3">
+                    <div class="reports-upload-card-icon">
 
-                        <span class="flex h-10 w-10 items-center justify-center rounded-lg
-                                     bg-indigo-50 text-indigo-600">
+                        <svg class="h-5 w-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.8"
+                            stroke="currentColor">
 
-                            <svg class="h-5 w-5"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.8"
-                                stroke="currentColor">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12" />
 
-                                <path stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12" />
+                        </svg>
 
-                            </svg>
+                    </div>
 
-                        </span>
+                    <div>
 
-                        <div>
+                        <h3 class="reports-upload-card-title">
+                            Informasi Laporan
+                        </h3>
 
-                            <h3 class="text-base font-semibold text-gray-900">
-                                Informasi Laporan
-                            </h3>
-
-                            <p class="text-sm text-gray-500 mt-0.5">
-                                Lengkapi informasi laporan sebelum mengunggah file.
-                            </p>
-
-                        </div>
+                        <p class="reports-upload-card-description">
+                            Lengkapi informasi laporan sebelum mengunggah file.
+                        </p>
 
                     </div>
 
                 </div>
 
 
-                <!-- Form -->
-                <form action="{{ route('reports.store') }}"
-                    method="POST"
-                    enctype="multipart/form-data"
-                    class="p-6">
+                <!-- Card Body -->
+                <div class="reports-upload-card-body">
 
-                    @csrf
+                    <form action="{{ route('reports.store') }}"
+                        method="POST"
+                        enctype="multipart/form-data">
 
-
-                    <!-- Basic Information -->
-                    <div class="grid gap-5 sm:grid-cols-2">
-
-                        <!-- Customer Name -->
-                        <div>
-
-                            <label for="customer_id"
-                                class="block text-sm font-medium text-gray-700">
-                                Nama Customer
-                            </label>
-
-                            <select
-                                id="customer_id"
-                                name="customer_id"
-                                class="mt-2 block w-full rounded-lg border-gray-300
-                                       shadow-sm text-sm
-                                       focus:border-indigo-500 focus:ring-indigo-500"
-                                required>
-
-                                <option value="">Pilih Customer</option>
-
-                                @foreach ($customers as $customer)
-                                <option
-                                    value="{{ $customer->id }}"
-                                    {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
-                                    {{ $customer->id }}
-                                </option>
-                                @endforeach
-                            </select>
-
-                            @error('customer_id')
-                            <p class="mt-1.5 text-sm text-red-600">
-                                {{ $message }}
-                            </p>
-                            @enderror
-
-                        </div>
+                        @csrf
 
 
-                        <!-- Issue -->
-                        <div>
+                        <!-- Form Grid -->
+                        <div class="reports-upload-form-grid">
 
-                            <label for="issue_id"
-                                class="block text-sm font-medium text-gray-700">
-                                Issue
-                            </label>
+                            <!-- Customer Name -->
+                            <div class="reports-upload-field">
 
-                            <select
-                                id="issue_id"
-                                name="issue_id"
-                                class="mt-2 block w-full rounded-lg border-gray-300
-                                       shadow-sm text-sm
-                                       focus:border-indigo-500 focus:ring-indigo-500"
-                                required>
-
-                                <option value="">
-                                    Pilih issue
-                                </option>
-
-                                @foreach ($issues as $issue)
-
-                                <option
-                                    value="{{ $issue->id }}"
-                                    @selected(old('issue_id')==$issue->id)>
-                                    {{ $issue->name }}
-                                </option>
-
-                                @endforeach
-
-                            </select>
-
-                            @error('issue_id')
-                            <p class="mt-1.5 text-sm text-red-600">
-                                {{ $message }}
-                            </p>
-                            @enderror
-
-                        </div>
-
-
-                        <!-- Site -->
-                        <div>
-
-                            <label for="site_id"
-                                class="block text-sm font-medium text-gray-700">
-                                Site
-                            </label>
-
-                            <select
-                                id="site_id"
-                                name="site_id"
-                                class="mt-2 block w-full rounded-lg border-gray-300
-                                       shadow-sm text-sm
-                                       focus:border-indigo-500 focus:ring-indigo-500"
-                                required>
-
-                                <option value="">
-                                    Pilih site
-                                </option>
-
-                                @foreach ($sites as $site)
-
-                                <option
-                                    value="{{ $site->id }}"
-                                    @selected(old('site_id')==$site->id)>
-                                    {{ $site->name }}
-                                </option>
-
-                                @endforeach
-
-                            </select>
-
-                            @error('site_id')
-                            <p class="mt-1.5 text-sm text-red-600">
-                                {{ $message }}
-                            </p>
-                            @enderror
-
-                        </div>
-
-
-                        <!-- Period -->
-                        <div class="grid grid-cols-2 gap-4">
-
-                            <!-- Month -->
-                            <div>
-
-                                <label for="month"
-                                    class="block text-sm font-medium text-gray-700">
-                                    Bulan
+                                <label for="customer_id"
+                                    class="reports-upload-label">
+                                    Nama Customer
                                 </label>
 
-                                <input
-                                    id="month"
-                                    name="month"
-                                    value="{{ old('month') }}"
-                                    min="1"
-                                    max="12"
-                                    placeholder="1–12"
-                                    class="mt-2 block w-full rounded-lg border-gray-300
-                                           shadow-sm text-sm
-                                           focus:border-indigo-500 focus:ring-indigo-500"
+                                <select
+                                    id="customer_id"
+                                    name="customer_id"
+                                    class="reports-upload-select"
                                     required>
-                                <option value="">Pilih Bulan</option>
 
-                                @php
-                                $months = [
-                                1 => 'Januari',
-                                2 => 'Februari',
-                                3 => 'Maret',
-                                4 => 'April',
-                                5 => 'Mei',
-                                6 => 'Juni',
-                                7 => 'Juli',
-                                8 => 'Agustus',
-                                9 => 'September',
-                                10 => 'Oktober',
-                                11 => 'November',
-                                12 => 'Desember',
-                                ];
-                                @endphp
+                                    <option value="">Pilih Customer</option>
 
-                                @foreach ($months as $value => $label)
-                                <option
-                                    value="{{ $value }}"
-                                    {{ old('month') == $value ? 'selected' : '' }}>
-                                    {{ $label }}
-                                </option>
-                                @endforeach
+                                    @foreach ($customers as $customer)
+                                    <option
+                                        value="{{ $customer->id }}"
+                                        {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
+                                        {{ $customer->name }}
+                                    </option>
+                                    @endforeach
                                 </select>
-                                
-                                @error('month')
-                                <p class="mt-1.5 text-sm text-red-600">
+
+                                @error('customer_id')
+                                <p class="reports-upload-error">
                                     {{ $message }}
                                 </p>
                                 @enderror
@@ -348,64 +201,188 @@
                             </div>
 
 
-                            <!-- Year -->
-                            <div>
+                            <!-- Issue -->
+                            <div class="reports-upload-field">
 
-                                <label for="year"
-                                    class="block text-sm font-medium text-gray-700">
-                                    Tahun
+                                <label for="issue_id"
+                                    class="reports-upload-label">
+                                    Issue
                                 </label>
 
-                                <input
-                                    id="year"
-                                    type="number"
-                                    name="year"
-                                    value="{{ old('year') }}"
-                                    min="1900"
-                                    max="2100"
-                                    placeholder="2026"
-                                    class="mt-2 block w-full rounded-lg border-gray-300
-                                           shadow-sm text-sm
-                                           focus:border-indigo-500 focus:ring-indigo-500"
+                                <select
+                                    id="issue_id"
+                                    name="issue_id"
+                                    class="reports-upload-select"
                                     required>
 
-                                @error('year')
-                                <p class="mt-1.5 text-sm text-red-600">
+                                    <option value="">
+                                        Pilih issue
+                                    </option>
+
+                                    @foreach ($issues as $issue)
+
+                                    <option
+                                        value="{{ $issue->id }}"
+                                        @selected(old('issue_id')==$issue->id)>
+                                        {{ $issue->name }}
+                                    </option>
+
+                                    @endforeach
+
+                                </select>
+
+                                @error('issue_id')
+                                <p class="reports-upload-error">
                                     {{ $message }}
                                 </p>
                                 @enderror
+
+                            </div>
+
+
+                            <!-- Site -->
+                            <div class="reports-upload-field">
+
+                                <label for="site_id"
+                                    class="reports-upload-label">
+                                    Site
+                                </label>
+
+                                <select
+                                    id="site_id"
+                                    name="site_id"
+                                    class="reports-upload-select"
+                                    required>
+
+                                    <option value="">
+                                        Pilih site
+                                    </option>
+
+                                    @foreach ($sites as $site)
+
+                                    <option
+                                        value="{{ $site->id }}"
+                                        @selected(old('site_id')==$site->id)>
+                                        {{ $site->name }}
+                                    </option>
+
+                                    @endforeach
+
+                                </select>
+
+                                @error('site_id')
+                                <p class="reports-upload-error">
+                                    {{ $message }}
+                                </p>
+                                @enderror
+
+                            </div>
+
+
+                            <!-- Period -->
+                            <div class="reports-upload-field">
+
+                                <div class="reports-upload-period">
+
+                                    <!-- Month -->
+                                    <div>
+
+                                        <label for="month"
+                                            class="reports-upload-label">
+                                            Bulan
+                                        </label>
+
+                                        <select
+                                            id="month"
+                                            name="month"
+                                            class="reports-upload-select"
+                                            required>
+
+                                            <option value="">Pilih Bulan</option>
+
+                                            @php
+                                            $months = [
+                                            1 => 'Januari',
+                                            2 => 'Februari',
+                                            3 => 'Maret',
+                                            4 => 'April',
+                                            5 => 'Mei',
+                                            6 => 'Juni',
+                                            7 => 'Juli',
+                                            8 => 'Agustus',
+                                            9 => 'September',
+                                            10 => 'Oktober',
+                                            11 => 'November',
+                                            12 => 'Desember',
+                                            ];
+                                            @endphp
+
+                                            @foreach ($months as $value => $label)
+                                            <option
+                                                value="{{ $value }}"
+                                                {{ old('month') == $value ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                            @endforeach
+
+                                        </select>
+
+                                        @error('month')
+                                        <p class="reports-upload-error">
+                                            {{ $message }}
+                                        </p>
+                                        @enderror
+
+                                    </div>
+
+
+                                    <!-- Year -->
+                                    <div>
+
+                                        <label for="year"
+                                            class="reports-upload-label">
+                                            Tahun
+                                        </label>
+
+                                        <input
+                                            id="year"
+                                            type="number"
+                                            name="year"
+                                            value="{{ old('year') }}"
+                                            min="1900"
+                                            max="2100"
+                                            placeholder="2026"
+                                            class="reports-upload-input"
+                                            required>
+
+                                        @error('year')
+                                        <p class="reports-upload-error">
+                                            {{ $message }}
+                                        </p>
+                                        @enderror
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
                         </div>
 
-                    </div>
 
+                        <!-- File Upload -->
+                        <div class="reports-upload-file-wrapper">
 
-                    <!-- File Upload -->
-                    <div class="mt-6">
-
-                        <label for="file"
-                            class="block text-sm font-medium text-gray-700">
-                            File PDF
-                        </label>
-
-                        <div class="mt-2">
+                            <label for="file"
+                                class="reports-upload-label">
+                                File PDF
+                            </label>
 
                             <label
                                 for="file"
-                                class="group relative flex flex-col items-center justify-center
-                                       w-full min-h-[170px] rounded-xl
-                                       border-2 border-dashed border-gray-300
-                                       bg-gray-50 px-6 py-8 text-center
-                                       cursor-pointer
-                                       hover:border-indigo-400
-                                       hover:bg-indigo-50/40
-                                       transition">
+                                class="reports-upload-file">
 
-                                <span class="flex h-12 w-12 items-center justify-center
-                                             rounded-full bg-indigo-50 text-indigo-600
-                                             group-hover:bg-indigo-100">
+                                <span class="reports-upload-file-icon">
 
                                     <svg class="h-6 w-6"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -422,16 +399,16 @@
 
                                 </span>
 
-                                <span class="mt-3 text-sm font-semibold text-gray-700">
+                                <span class="reports-upload-file-title">
                                     Pilih file PDF
                                 </span>
 
-                                <span class="mt-1 text-xs text-gray-500">
+                                <span class="reports-upload-file-description">
                                     Klik area ini untuk memilih file
                                 </span>
 
                                 <span id="file-name"
-                                    class="mt-3 text-xs font-medium text-indigo-600">
+                                    class="reports-upload-file-name">
                                 </span>
 
                                 <input
@@ -444,66 +421,55 @@
 
                             </label>
 
+                            <p class="reports-upload-file-description">
+                                Format yang diperbolehkan: PDF.
+                            </p>
+
+                            @error('file')
+                            <p class="reports-upload-error">
+                                {{ $message }}
+                            </p>
+                            @enderror
+
                         </div>
 
-                        <p class="mt-2 text-xs text-gray-500">
-                            Format yang diperbolehkan: PDF.
-                        </p>
 
-                        @error('file')
-                        <p class="mt-1.5 text-sm text-red-600">
-                            {{ $message }}
-                        </p>
-                        @enderror
+                        <!-- Actions -->
+                        <div class="reports-upload-actions">
 
-                    </div>
+                            <a href="{{ route('reports.index') }}"
+                                class="reports-cancel-button">
 
+                                Batal
 
-                    <!-- Actions -->
-                    <div class="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end
-                                border-t border-gray-100 pt-5">
+                            </a>
 
-                        <a href="{{ route('reports.index') }}"
-                            class="inline-flex items-center justify-center px-4 py-2.5
-                                  rounded-lg border border-gray-300
-                                  bg-white text-sm font-semibold text-gray-700
-                                  hover:bg-gray-50 transition">
+                            <button
+                                type="submit"
+                                class="reports-submit-button">
 
-                            Batal
+                                <svg class="h-5 w-5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor">
 
-                        </a>
+                                    <path stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M12 4.5v15m7.5-7.5h-15" />
 
-                        <button
-                            type="submit"
-                            class="inline-flex items-center justify-center gap-2
-                                   px-5 py-2.5
-                                   bg-indigo-600 border border-transparent
-                                   rounded-lg font-semibold text-sm text-white
-                                   shadow-sm hover:bg-indigo-700
-                                   focus:outline-none focus:ring-2
-                                   focus:ring-indigo-500 focus:ring-offset-2
-                                   transition">
+                                </svg>
 
-                            <svg class="h-5 w-5"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="2"
-                                stroke="currentColor">
+                                Upload Laporan
 
-                                <path stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </button>
 
-                            </svg>
+                        </div>
 
-                            Upload Laporan
+                    </form>
 
-                        </button>
-
-                    </div>
-
-                </form>
+                </div>
 
             </div>
 
