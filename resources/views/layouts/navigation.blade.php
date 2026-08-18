@@ -155,12 +155,12 @@
                     type="button"
                     class="theme-toggle-button js-theme-toggle"
                     aria-label="Toggle dark mode">
-                    <svg id="theme-icon-sun" class="hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="theme-icon-sun hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 100 10 5 5 0 000-10z" />
                     </svg>
 
-                    <svg id="theme-icon-moon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="theme-icon-moon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
                     </svg>
@@ -465,6 +465,7 @@
                                                                    bg-indigo-500"></span>
 
                                                     @endif
+                                                </p>
 
                                             </div>
 
@@ -632,7 +633,7 @@
 
             <!-- Mobile Menu Button -->
             <div class="flex sm:hidden items-center justify-end gap-2">
-                
+
                 <button
                     type="button"
                     class="theme-toggle-button js-theme-toggle"

@@ -45,39 +45,36 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const toggles = document.querySelectorAll('.js-theme-toggle');
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggles = document.querySelectorAll('.js-theme-toggle');
 
-        if (!toggles.length) return;
+            if (!toggles.length) return;
 
-        function updateThemeIcons() {
-            const isDark = document.documentElement.classList.contains('dark');
+            function updateThemeIcons() {
+                const isDark = document.documentElement.classList.contains('dark');
 
-            document.querySelectorAll('.theme-icon-sun').forEach(function(icon) {
-                icon.classList.toggle('hidden', !isDark);
+                document.querySelectorAll('.theme-icon-sun').forEach(function(icon) {
+                    icon.classList.toggle('hidden', !isDark);
+                });
+
+                document.querySelectorAll('.theme-icon-moon').forEach(function(icon) {
+                    icon.classList.toggle('hidden', isDark);
+                });
+            }
+
+            toggles.forEach(function(toggle) {
+                toggle.addEventListener('click', function() {
+                    const isDark = document.documentElement.classList.toggle('dark');
+
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+                    updateThemeIcons();
+                });
             });
 
-            document.querySelectorAll('.theme-icon-moon').forEach(function(icon) {
-                icon.classList.toggle('hidden', isDark);
-            });
-        }
-
-        toggles.forEach(function(toggle) {
-            toggle.addEventListener('click', function() {
-                const isDark = document.documentElement.classList.toggle('dark');
-
-                localStorage.setItem(
-                    'theme',
-                    isDark ? 'dark' : 'light'
-                );
-
-                updateThemeIcons();
-            });
+            updateThemeIcons();
         });
-
-        updateThemeIcons();
-    });
-</script>
+    </script>
 </body>
 
 </html>
