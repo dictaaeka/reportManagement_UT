@@ -139,7 +139,12 @@
 
                     <span>Customers</span>
                 </a>
+
+    <!-- Users -->
+             
                 @endif
+
+                
 
             </div>
 
@@ -284,7 +289,7 @@
                 </button>
 
                 @include('layouts.partials.notification-bell')
-                
+
                 <button
                     @click="open = ! open"
                     class="inline-flex items-center justify-center p-2 rounded-lg

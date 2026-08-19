@@ -5,8 +5,9 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SiteController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('reports', ReportController::class)->only([
             'create', 'store', 'edit', 'update', 'destroy',
         ]);
+
+        // Users
+        Route::resource('users', UserController::class)->except(['show']);
 
         // Issues
         Route::resource('issues', IssueController::class)->except(['show']);
