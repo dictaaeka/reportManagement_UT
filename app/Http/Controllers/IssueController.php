@@ -6,7 +6,6 @@ use App\Http\Requests\IssueRequest;
 use App\Models\Issue;
 use App\Models\User;
 use App\Notifications\SystemNotification;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class IssueController extends Controller
@@ -23,13 +22,9 @@ class IssueController extends Controller
         return view('issues.create');
     }
 
-     public function store(Request $request)
+    public function store(IssueRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:issues,name'],
-        ]);
-
-        $issue = Issue::create($validated);
+        $issue = Issue::create($request->validated());
 
         // NOTIFICATION UNTUK SEMUA ADMIN
         $admins = User::where('role', 'admin')->get();
@@ -54,18 +49,9 @@ class IssueController extends Controller
         return view('issues.edit', compact('issue'));
     }
 
-     public function update(Request $request, Issue $issue)
+    public function update(IssueRequest $request, Issue $issue)
     {
-        $validated = $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-                'unique:issues,name,' . $issue->id,
-            ],
-        ]);
-
-        $issue->update($validated);
+        $issue->update($request->validated());
 
         // NOTIFICATION UNTUK SEMUA ADMIN
         $admins = User::where('role', 'admin')->get();

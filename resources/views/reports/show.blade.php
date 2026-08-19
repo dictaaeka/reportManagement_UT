@@ -11,8 +11,8 @@
             <div class="bg-white shadow-sm sm:rounded-lg p-6 space-y-6">
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div>
-                        <p class="text-sm font-medium text-gray-500">Judul</p>
-                        <p class="mt-1 text-sm text-gray-900">{{ $report->title }}</p>
+                        <p class="text-sm font-medium text-gray-500">Customer</p>
+                        <p class="mt-1 text-sm text-gray-900">{{ $report->customer?->name ?? '—' }}</p>
                     </div>
                     <div>
                         <p class="text-sm font-medium text-gray-500">Issue</p>

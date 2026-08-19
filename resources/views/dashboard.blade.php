@@ -32,7 +32,7 @@
                     <div class="rounded-lg border border-gray-200 p-4">
                         <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <p class="text-sm font-semibold text-gray-900">{{ $report->title }}</p>
+                                <p class="text-sm font-semibold text-gray-900">{{ $report->customer?->name ?? '—' }}</p>
                                 <p class="text-sm text-gray-600">{{ $report->issue->name ?? '—' }} / {{ $report->site->name ?? '—' }}</p>
                             </div>
                             <p class="text-sm text-gray-500">{{ $report->month }}/{{ $report->year }}</p>

@@ -12,11 +12,6 @@ use App\Http\Controllers\CustomerController;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
 Route::get('/', function () {
@@ -36,10 +31,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return redirect()->route('reports.index');
     })->name('dashboard');
 
-    // Reports
-    Route::resource('reports', ReportController::class);
-
     Route::middleware('admin')->group(function () {
+        // Reports — create/store/edit/update/destroy khusus Admin
+        // HARUS didaftarkan SEBELUM index/show, biar /reports/create
+        // gak ketiban wildcard /reports/{report}
+        Route::resource('reports', ReportController::class)->only([
+            'create', 'store', 'edit', 'update', 'destroy',
+        ]);
+
         // Issues
         Route::resource('issues', IssueController::class)->except(['show']);
 
@@ -49,6 +48,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Customers
         Route::resource('customers', CustomerController::class)->except(['show']);
     });
+
+    // Reports — index & show boleh diakses semua user yang login
+    // Didaftarkan SETELAH blok admin di atas
+    Route::resource('reports', ReportController::class)->only(['index', 'show']);
 
     /*
     |--------------------------------------------------------------------------

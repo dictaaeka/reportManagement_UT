@@ -96,8 +96,6 @@ class ReportController extends Controller
         $file = $request->file('file');
         $originalName = $file->getClientOriginalName();
 
-        $pathPrefix = 'reports';
-
         $storedName = now()->timestamp . '_'
             . Str::slug(pathinfo($originalName, PATHINFO_FILENAME))
             . '.'
@@ -127,11 +125,8 @@ class ReportController extends Controller
             'uploader_id' => Auth::id(),
         ]);
 
-
         /*
          * NOTIFICATION UNTUK USER BIASA
-         * Semua user dengan role "user" mendapat pemberitahuan
-         * bahwa ada laporan baru yang tersedia.
          */
         $users = User::where('role', 'user')->get();
 
@@ -147,8 +142,6 @@ class ReportController extends Controller
 
         /*
          * ACTIVITY NOTIFICATION UNTUK ADMIN
-         * Administrator mendapat informasi bahwa ada user
-         * yang menambahkan laporan.
          */
         $admins = User::where('role', 'admin')->get();
 
@@ -181,10 +174,6 @@ class ReportController extends Controller
 
     public function edit(Report $report)
     {
-        if (Auth::id() !== $report->uploader_id && Auth::user()?->role !== 'admin') {
-            abort(403);
-        }
-
         $report->load([
             'issue',
             'site',
@@ -204,10 +193,6 @@ class ReportController extends Controller
      */
     public function update(ReportRequest $request, Report $report)
     {
-        if (Auth::id() !== $report->uploader_id && Auth::user()?->role !== 'admin') {
-            abort(403);
-        }
-        
         $report->issue_id = $request->issue_id;
         $report->site_id = $request->site_id;
         $report->month = $request->month;
@@ -236,7 +221,6 @@ class ReportController extends Controller
                 'public'
             );
 
-            // Kompres PDF supaya lebih hemat space (aman kalau Ghostscript belum ada).
             $absolutePath = Storage::disk('public')->path($path);
             (new PdfCompressorService())->compress($absolutePath);
 
@@ -250,7 +234,6 @@ class ReportController extends Controller
 
         /*
          * NOTIFICATION UNTUK USER BIASA
-         * Memberitahu bahwa laporan telah diperbarui.
          */
         $users = User::where('role', 'user')->get();
 
@@ -289,10 +272,6 @@ class ReportController extends Controller
      */
     public function destroy(Report $report)
     {
-        if (Auth::id() !== $report->uploader_id && Auth::user()?->role !== 'admin') {
-            abort(403);
-        }
-
         $customerName = $report->customer?->name ?? '-';
 
         $disk = Storage::disk('public');
@@ -308,7 +287,6 @@ class ReportController extends Controller
 
         /*
          * NOTIFICATION UNTUK USER BIASA
-         * Memberitahu bahwa laporan sudah dihapus.
          */
         $users = User::where('role', 'user')->get();
 
@@ -363,7 +341,6 @@ class ReportController extends Controller
             abort(404);
         }
 
-        // NOTIFICATION UNTUK USER YANG MELAKUKAN DOWNLOAD
         Auth::user()->notify(
             new SystemNotification(
                 'download_report',

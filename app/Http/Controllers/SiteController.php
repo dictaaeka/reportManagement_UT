@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SiteRequest;
 use App\Models\Site;
 use App\Models\User;
 use App\Notifications\SystemNotification;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SiteController extends Controller
@@ -22,13 +22,9 @@ class SiteController extends Controller
         return view('sites.create');
     }
 
-    public function store(Request $request)
+    public function store(SiteRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:sites,name'],
-        ]);
-
-        $site = Site::create($validated);
+        $site = Site::create($request->validated());
 
         // NOTIFICATION UNTUK SEMUA ADMIN
         $admins = User::where('role', 'admin')->get();
@@ -53,18 +49,9 @@ class SiteController extends Controller
         return view('sites.edit', compact('site'));
     }
 
-    public function update(Request $request, Site $site)
+    public function update(SiteRequest $request, Site $site)
     {
-        $validated = $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-                'unique:sites,name,' . $site->id,
-            ],
-        ]);
-
-        $site->update($validated);
+        $site->update($request->validated());
 
         // NOTIFICATION UNTUK SEMUA ADMIN
         $admins = User::where('role', 'admin')->get();

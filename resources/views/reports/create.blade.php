@@ -28,7 +28,7 @@
 
                     </div>
 
-                    {{-- Title --}}
+                    {{-- Upload Laporan --}}
                     <div>
 
                         <h2 class="reports-header-title">
