@@ -73,6 +73,12 @@ class IssueController extends Controller
 
     public function destroy(Issue $issue)
     {
+        if ($issue->reports()->exists()) {
+            return redirect()
+                ->route('issues.index')
+                ->with('error', 'Issue tidak dapat dihapus karena masih digunakan oleh laporan.');
+        }
+
         $issueName = $issue->name;
 
         $issue->delete();

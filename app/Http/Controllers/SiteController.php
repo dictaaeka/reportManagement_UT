@@ -73,6 +73,12 @@ class SiteController extends Controller
 
     public function destroy(Site $site)
     {
+        if ($site->reports()->exists()) {
+            return redirect()
+                ->route('sites.index')
+                ->with('error', 'Site tidak dapat dihapus karena masih digunakan oleh laporan.');
+        }
+
         $siteName = $site->name;
 
         $site->delete();

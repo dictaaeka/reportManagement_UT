@@ -18,7 +18,6 @@
             <!-- Desktop Navigation -->
             <div class="hidden sm:flex items-center justify-center gap-2">
 
-                @if (Auth::user()->isAdmin())
                 <!-- Reports -->
                 <a href="{{ route('reports.index') }}"
                     class="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition
@@ -45,8 +44,6 @@
 
                 </a>
 
-
-                @endif
 
                 @if (Auth::user()->isAdmin())
                 <!-- Issues -->
@@ -369,7 +366,7 @@
 
         <div class="px-4 pt-3 pb-3 space-y-1">
 
-            <a
+            
                 href="{{ route('reports.index') }}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
                 {{ request()->routeIs('reports.*')
@@ -380,7 +377,7 @@
 
 
             @if (Auth::user()->isAdmin())
-            <a
+            
                 href="{{ route('issues.index') }}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
                     {{ request()->routeIs('issues.*')
@@ -390,7 +387,7 @@
             </a>
 
 
-            <a
+            
                 href="{{ route('sites.index') }}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
                     {{ request()->routeIs('sites.*')
@@ -399,7 +396,7 @@
                 <span>Sites</span>
             </a>
 
-            <a
+            
                 href="{{ route('customers.index') }}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
                     {{ request()->routeIs('customers.*')
@@ -408,7 +405,7 @@
                 <span>Customers</span>
             </a>
 
-            <a
+            
                 href="{{ route('users.index') }}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
     {{ request()->routeIs('users.*')

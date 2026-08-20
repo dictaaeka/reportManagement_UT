@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -47,6 +49,23 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Proteksi Admin Terakhir
+        |--------------------------------------------------------------------------
+        |
+        | Sistem tidak boleh kehilangan Admin terakhir. Kalau user yang sedang
+        | menghapus akunnya sendiri adalah satu-satunya Admin yang tersisa,
+        | hapus akun ditolak dan user diarahkan kembali ke halaman profile
+        | dengan pesan error (tidak melalui exception 500 / crash).
+        |
+        */
+        if ($user->role === 'admin' && User::where('role', 'admin')->count() <= 1) {
+            throw ValidationException::withMessages([
+                'admin' => 'Admin terakhir tidak dapat menghapus akun sendiri. Sistem harus memiliki minimal satu Admin.',
+            ])->errorBag('userDeletion');
+        }
 
         Auth::logout();
 

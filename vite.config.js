@@ -8,7 +8,7 @@ export default defineConfig({
 
         cors: true,
         hmr: {
-            host: '192.168.1.24',
+            host: process.env.VITE_HMR_HOST || undefined,
         },
     },
 

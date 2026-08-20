@@ -104,11 +104,11 @@ class ReportController extends Controller
         $path = $file->storeAs(
             'reports',
             $storedName,
-            'public'
+            'local'
         );
 
         // Kompres PDF supaya lebih hemat space (aman kalau Ghostscript belum ada).
-        $absolutePath = Storage::disk('public')->path($path);
+        $absolutePath = Storage::disk('local')->path($path);
         (new PdfCompressorService())->compress($absolutePath);
         $finalSize = filesize($absolutePath);
 
@@ -202,9 +202,9 @@ class ReportController extends Controller
         if ($request->hasFile('file')) {
             if (
                 $report->file_path &&
-                Storage::disk('public')->exists($report->file_path)
+                Storage::disk('local')->exists($report->file_path)
             ) {
-                Storage::disk('public')->delete($report->file_path);
+                Storage::disk('local')->delete($report->file_path);
             }
 
             $file = $request->file('file');
@@ -218,10 +218,10 @@ class ReportController extends Controller
             $path = $file->storeAs(
                 'reports',
                 $storedName,
-                'public'
+                'local'
             );
 
-            $absolutePath = Storage::disk('public')->path($path);
+            $absolutePath = Storage::disk('local')->path($path);
             (new PdfCompressorService())->compress($absolutePath);
 
             $report->file_name = $originalName;
@@ -274,7 +274,7 @@ class ReportController extends Controller
     {
         $customerName = $report->customer?->name ?? '-';
 
-        $disk = Storage::disk('public');
+        $disk = Storage::disk('local');
 
         if (
             $report->file_path &&
@@ -322,22 +322,22 @@ class ReportController extends Controller
 
     public function preview(Report $report)
     {
-        $path = storage_path('app/public/' . $report->file_path);
+        $disk = Storage::disk('local');
 
-        if (!file_exists($path)) {
+        if (!$report->file_path || !$disk->exists($report->file_path)) {
             abort(404);
         }
 
-        return response()->file($path, [
+        return response()->file($disk->path($report->file_path), [
             'Content-Type' => 'application/pdf',
         ]);
     }
 
     public function download(Report $report)
     {
-        $path = storage_path('app/public/' . $report->file_path);
+        $disk = Storage::disk('local');
 
-        if (!file_exists($path)) {
+        if (!$report->file_path || !$disk->exists($report->file_path)) {
             abort(404);
         }
 
@@ -350,7 +350,7 @@ class ReportController extends Controller
         );
 
         return response()->download(
-            $path,
+            $disk->path($report->file_path),
             $report->file_name
         );
     }

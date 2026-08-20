@@ -3,7 +3,6 @@
     {{-- =====================================================
         HEADER
     ====================================================== --}}
-    @if (Auth::user()->isAdmin())
     <x-slot name="header">
 
         <div class="reports-header">
@@ -50,7 +49,7 @@
 
                 {{-- Upload (Admin Only) --}}
                 @if (Auth::user()->isAdmin())
-                <a
+                
                     href="{{ route('reports.create') }}"
                     class="reports-upload-button">
 
@@ -77,7 +76,6 @@
         </div>
 
     </x-slot>
-    @endif
 
 
     {{-- =====================================================
@@ -601,7 +599,7 @@
 
 
                                         {{-- VIEW --}}
-                                        <a
+                                        
                                             href="{{ route('reports.preview', $report) }}"
                                             target="_blank"
                                             title="Lihat PDF"
@@ -612,7 +610,7 @@
 
 
                                         {{-- DOWNLOAD --}}
-                                        <a
+                                        
                                             href="{{ route('reports.download', $report) }}"
                                             title="Download PDF"
                                             aria-label="Download PDF"
@@ -623,7 +621,7 @@
 
                                         {{-- EDIT (Admin Only) --}}
                                         @if (Auth::user()->isAdmin())
-                                        <a
+                                        
                                             href="{{ route('reports.edit', $report) }}"
                                             title="Edit"
                                             aria-label="Edit laporan"
