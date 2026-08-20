@@ -54,11 +54,4 @@
             </button>
         </div>
     </form>
-
-    @if (Route::has('register'))
-    <p class="auth-footer-text">
-        {{ __('Belum punya akun?') }}
-        <a href="{{ route('register') }}" class="auth-footer-link">{{ __('Daftar') }}</a>
-    </p>
-    @endif
 </x-guest-layout>

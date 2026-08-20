@@ -262,21 +262,11 @@
                                     <div class="flex items-center justify-center gap-2">
 
                                         {{-- EDIT --}}
-                                        <a
-                                            href="{{ route('users.edit', $user) }}"
-                                            class="inline-flex px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium transition hover:bg-indigo-700"
-                                            aria-label="Edit user">
 
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M16.862 4.487l1.687-1.688
-                                                       a1.875 1.875 0 112.652 2.652
-                                                       L10.582 15.89a4.5 4.5 0 01-1.897
-                                                       1.13L6 18l.98-2.685a4.5 4.5 0
-                                                       011.13-1.897l8.752-8.931z" />
+                                        <a href="{{ route('users.edit', $user) }}"
+                                        class="inline-flex px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium transition hover:bg-indigo-700" aria-label="Edit users">
 
-                                            Edit
+                                        Edit
 
                                         </a>
 
@@ -292,23 +282,8 @@
                                             @csrf
                                             @method('DELETE')
 
-                                            <button
-                                                type="submit"
-                                                class="data-management-danger-button">
-
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    d="M6 7.5h12m-10.5 0v11.25
-                                                           A1.25 1.25 0 008.75 20h6.5
-                                                           a1.25 1.25 0 001.25-1.25V7.5
-                                                           M9 7.5V5.25A1.25 1.25 0
-                                                           0110.25 4h3.5A1.25 1.25
-                                                           0 0115 5.25V7.5m-4.5
-                                                           3.75v5.25m3-5.25v5.25" />
-
+                                            <button type="submit" class="inline-flex px-3 py-2 rounded-lg bg-red-600 text-white text-sm font-medium transition hover:bg-red-700" aria-label="Hapus issue">
                                                 Hapus
-
                                             </button>
 
                                         </form>

@@ -51,22 +51,7 @@
                 {{-- Back --}}
                 <a
                     href="{{ route('users.index') }}"
-                    class="data-management-cancel-button">
-
-                    <svg
-                        class="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        aria-hidden="true">
-
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-
-                    </svg>
+                    class="reports-back-button">
 
                     Kembali
 
@@ -84,7 +69,7 @@
     ====================================================== --}}
     <div class="py-6">
 
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
 
             {{-- =================================================
@@ -280,14 +265,17 @@
                                         id="password"
                                         type="password"
                                         name="password"
-                                        class="data-management-input pr-12"
+                                        class="data-management-input"
+                                        style="width: 100%; padding-right: 44px;"
                                         placeholder="Minimal 8 karakter"
                                         required>
 
                                     <button
                                         type="button"
                                         onclick="togglePassword('password', 'password-eye', 'password-eye-off')"
-                                        class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-400 hover:text-indigo-500 transition"
+                                        style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; background: none; border: none; padding: 0; cursor: pointer; color: #9ca3af;"
+                                        onmouseover="this.style.color='#6366f1'"
+                                        onmouseout="this.style.color='#9ca3af'"
                                         aria-label="Tampilkan password">
 
                                         {{-- Eye --}}
@@ -366,14 +354,17 @@
                                         id="password_confirmation"
                                         type="password"
                                         name="password_confirmation"
-                                        class="data-management-input pr-12"
+                                        class="data-management-input"
+                                        style="width: 100%; padding-right: 44px;"
                                         placeholder="Masukkan kembali password"
                                         required>
 
                                     <button
                                         type="button"
                                         onclick="togglePassword('password_confirmation', 'confirmation-eye', 'confirmation-eye-off')"
-                                        class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-400 hover:text-indigo-500 transition"
+                                        style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; background: none; border: none; padding: 0; cursor: pointer; color: #9ca3af;"
+                                        onmouseover="this.style.color='#6366f1'"
+                                        onmouseout="this.style.color='#9ca3af'"
                                         aria-label="Tampilkan konfirmasi password">
 
                                         <svg
@@ -478,7 +469,7 @@
                             ACTIONS
                         ================================================== --}}
                         <div class="data-management-form-actions">
-                            <a href="{{ route('customers.index') }}" class="data-management-cancel-button">
+                            <a href="{{ route('users.index') }}" class="data-management-cancel-button">
                                 Batal
                             </a>
 

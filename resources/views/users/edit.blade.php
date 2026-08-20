@@ -61,24 +61,7 @@
                 <a
                     href="{{ route('users.index') }}"
                     class="data-management-cancel-button">
-
-                    <svg
-                        class="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        aria-hidden="true">
-
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-
-                    </svg>
-
                     Kembali
-
                 </a>
 
             </div>
@@ -93,7 +76,7 @@
     ====================================================== --}}
     <div class="py-6">
 
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
 
             {{-- =================================================
@@ -117,7 +100,7 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             d="M12 9v3.75m9-.75a9 9 0 11-18 0
-                               9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                                   9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
 
                     </svg>
 
@@ -288,7 +271,7 @@
                             <div class="data-management-field">
 
                                 <label for="password" class="data-management-label">
-                                    Password
+                                    Password (optional)
                                 </label>
 
                                 <div class="relative">
@@ -297,66 +280,40 @@
                                         id="password"
                                         type="password"
                                         name="password"
-                                        class="data-management-input pr-12"
-                                        placeholder="Minimal 8 karakter"
-                                        required>
+                                        class="data-management-input"
+                                        style="width: 100%; padding-right: 44px;"
+                                        placeholder="Minimal 8 karakter">
 
                                     <button
                                         type="button"
                                         onclick="togglePassword('password', 'password-eye', 'password-eye-off')"
-                                        class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-400 hover:text-indigo-500 transition"
+                                        style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; background: none; border: none; padding: 0; cursor: pointer; color: #9ca3af;"
+                                        onmouseover="this.style.color='#6366f1'"
+                                        onmouseout="this.style.color='#9ca3af'"
                                         aria-label="Tampilkan password">
 
                                         {{-- Eye --}}
-                                        <svg
-                                            id="password-eye"
-                                            class="h-5 w-5"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.8"
-                                            stroke="currentColor">
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
+                                        <svg id="password-eye" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M2.458 12C3.732 7.943 7.523 5.25 12 5.25
                        c4.477 0 8.268 2.693 9.542 6.75
                        C20.268 16.057 16.477 18.75 12 18.75
                        c-4.477 0-8.268-2.693-9.542-6.75z" />
-
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
+                                            <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
 
-
                                         {{-- Eye Off --}}
-                                        <svg
-                                            id="password-eye-off"
-                                            class="h-5 w-5 hidden"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.8"
-                                            stroke="currentColor">
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M3 3l18 18" />
-
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M10.584 10.587a2 2 0 002.829 2.829" />
-
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
+                                        <svg id="password-eye-off" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.584 10.587a2 2 0 002.829 2.829" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M9.88 5.09A9.72 9.72 0 0112 4.75
-                                                    c4.477 0 8.268 2.693 9.542 6.75
-                                                    a9.77 9.77 0 01-3.17 4.445M6.228 6.228
-                                                    A9.77 9.77 0 002.458 12
-                                                    C3.732 16.057 7.523 18.75 12 18.75
-                                                    c1.61 0 3.117-.392 4.446-1.084" />
+                       c4.477 0 8.268 2.693 9.542 6.75
+                       a9.77 9.77 0 01-3.17 4.445M6.228 6.228
+                       A9.77 9.77 0 002.458 12
+                       C3.732 16.057 7.523 18.75 12 18.75
+                       c1.61 0 3.117-.392 4.446-1.084" />
                                         </svg>
 
                                     </button>
@@ -383,169 +340,118 @@
                                         id="password_confirmation"
                                         type="password"
                                         name="password_confirmation"
-                                        class="data-management-input pr-12"
-                                        placeholder="Masukkan kembali password"
-                                        required>
+                                        class="data-management-input"
+                                        style="width: 100%; padding-right: 44px;"
+                                        placeholder="Masukkan kembali password">
 
                                     <button
                                         type="button"
                                         onclick="togglePassword('password_confirmation', 'confirmation-eye', 'confirmation-eye-off')"
-                                        class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-400 hover:text-indigo-500 transition"
+                                        style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; background: none; border: none; padding: 0; cursor: pointer; color: #9ca3af;"
+                                        onmouseover="this.style.color='#6366f1'"
+                                        onmouseout="this.style.color='#9ca3af'"
                                         aria-label="Tampilkan konfirmasi password">
 
-                                        <svg
-                                            id="confirmation-eye"
-                                            class="h-5 w-5"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.8"
-                                            stroke="currentColor">
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
+                                        <svg id="confirmation-eye" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M2.458 12C3.732 7.943 7.523 5.25 12 5.25
                        c4.477 0 8.268 2.693 9.542 6.75
                        C20.268 16.057 16.477 18.75 12 18.75
                        c-4.477 0-8.268-2.693-9.542-6.75z" />
-
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
+                                            <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
 
-                                        <svg
-                                            id="confirmation-eye-off"
-                                            class="h-5 w-5 hidden"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.8"
-                                            stroke="currentColor">
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M3 3l18 18" />
-
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M10.584 10.587a2 2 0 002.829 2.829" />
-
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
+                                        <svg id="confirmation-eye-off" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.584 10.587a2 2 0 002.829 2.829" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M9.88 5.09A9.72 9.72 0 0112 4.75
-                                                c4.477 0 8.268 2.693 9.542 6.75
-                                                a9.77 9.77 0 01-3.17 4.445M6.228 6.228
-                                                A9.77 9.77 0 002.458 12
-                                                C3.732 16.057 7.523 18.75 12 18.75
-                                                c1.61 0 3.117-.392 4.446-1.084" />
+                       c4.477 0 8.268 2.693 9.542 6.75
+                       a9.77 9.77 0 01-3.17 4.445M6.228 6.228
+                       A9.77 9.77 0 002.458 12
+                       C3.732 16.057 7.523 18.75 12 18.75
+                       c1.61 0 3.117-.392 4.446-1.084" />
                                         </svg>
 
                                     </button>
 
                                 </div>
 
-                            </div
+                            </div>
 
+                            {{-- Role --}}
+                            <div class="data-management-field">
 
-                                {{-- Role --}}
-                                <div class="data-management-field">
+                                <label
+                                    for="role"
+                                    class="data-management-label">
 
-                            <label
-                                for="role"
-                                class="data-management-label">
+                                    Role
 
-                                Role
+                                </label>
 
-                            </label>
+                                <select
+                                    id="role"
+                                    name="role"
+                                    class="data-management-input"
+                                    required>
 
-                            <select
-                                id="role"
-                                name="role"
-                                class="data-management-input"
-                                required>
+                                    <option
+                                        value="user"
+                                        {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>
 
-                                <option
-                                    value="user"
-                                    {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>
+                                        User
 
-                                    User
+                                    </option>
 
-                                </option>
+                                    <option
+                                        value="admin"
+                                        {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>
 
-                                <option
-                                    value="admin"
-                                    {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>
+                                        Admin
 
-                                    Admin
+                                    </option>
 
-                                </option>
+                                </select>
 
-                            </select>
+                                @error('role')
 
-                            @error('role')
+                                <p class="data-management-error">
+                                    {{ $message }}
+                                </p>
 
-                            <p class="data-management-error">
-                                {{ $message }}
-                            </p>
+                                @enderror
 
-                            @enderror
+                            </div>
 
                         </div>
 
-                </div>
 
-
-                {{-- =================================================
+                        {{-- =================================================
                             ACTIONS
                         ================================================== --}}
-                <div class="data-management-form-actions">
+                        <div class="data-management-form-actions">
 
-                    <a
-                        href="{{ route('users.index') }}"
-                        class="data-management-cancel-button">
-
-                        Batal
-
-                    </a>
+                            <a
+                                href="{{ route('users.index') }}"
+                                class="data-management-cancel-button">
+                                Batal
+                            </a>
 
 
-                    <button
-                        type="submit"
-                        class="data-management-submit-button">
+                            <button
+                                type="submit"
+                                class="data-management-submit-button">
+                                Simpan
 
-                        <svg
-                            class="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="2"
-                            stroke="currentColor"
-                            aria-hidden="true">
+                            </button>
 
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M16.862 4.487l1.687-1.688
-                                           a1.875 1.875 0 112.652 2.652
-                                           L10.582 15.89a4.5 4.5 0 01-1.897
-                                           1.13L6 18l.98-2.685a4.5 4.5 0
-                                           011.13-1.897l8.752-8.931z" />
+                        </div>
 
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M19.5 7.125L16.875 4.5" />
-
-                        </svg>
-
-                        Simpan Perubahan
-
-                    </button>
+                    </form>
 
                 </div>
-
-                </form>
 
             </div>
 
@@ -553,7 +459,6 @@
 
     </div>
 
-    </div>
 
     <script>
         function togglePassword(inputId, eyeId, eyeOffId) {
@@ -579,4 +484,5 @@
             }
         }
     </script>
+
 </x-app-layout>

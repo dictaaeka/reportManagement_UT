@@ -140,11 +140,44 @@
                     <span>Customers</span>
                 </a>
 
-    <!-- Users -->
-             
+                <!-- Users -->
+                <a href="{{ route('users.index') }}"
+                    class="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition
+    {{ request()->routeIs('users.*')
+        ? 'bg-indigo-50 text-indigo-700'
+        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+
+                    <svg class="h-[18px] w-[18px] transition
+        {{ request()->routeIs('users.*')
+            ? 'text-indigo-600'
+            : 'text-gray-400 group-hover:text-gray-600' }}"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.8"
+                        stroke="currentColor"
+                        aria-hidden="true">
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15 19.128a9.38 9.38 0 002.625.372
+               9.337 9.337 0 004.121-.952
+               4.125 4.125 0 00-7.533-2.493M15 19.128v-.003
+               c0-1.113-.285-2.162-.786-3.07M15 19.128v.003
+               A9.385 9.385 0 0112 19.5
+               a9.385 9.385 0 01-3-.369m6-12.756
+               a3 3 0 11-6 0 3 3 0 016 0zm6 3
+               a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5
+               0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                    </svg>
+
+                    <span>Users</span>
+                </a>
+
                 @endif
 
-                
+
 
             </div>
 
@@ -373,6 +406,16 @@
                     ? 'bg-indigo-50 text-indigo-700'
                     : 'text-gray-600 hover:bg-gray-50' }}">
                 <span>Customers</span>
+            </a>
+
+            <a
+                href="{{ route('users.index') }}"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
+    {{ request()->routeIs('users.*')
+        ? 'bg-indigo-50 text-indigo-700'
+        : 'text-gray-600 hover:bg-gray-50' }}">
+
+                <span>Users</span>
             </a>
             @endif
 
