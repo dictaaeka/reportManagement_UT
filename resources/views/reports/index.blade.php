@@ -48,7 +48,7 @@
 
 
                 {{-- Upload (Admin Only) --}}
-                @if (Auth::user()->isAdmin())
+                @if (Auth::check() && Auth::user()->isAdmin())
                 
                     href="{{ route('reports.create') }}"
                     class="reports-upload-button">
@@ -620,7 +620,7 @@
 
 
                                         {{-- EDIT (Admin Only) --}}
-                                        @if (Auth::user()->isAdmin())
+                                        @if (Auth::check() && Auth::user()->isAdmin())
                                         
                                             href="{{ route('reports.edit', $report) }}"
                                             title="Edit"
@@ -632,7 +632,7 @@
 
 
                                         {{-- DELETE (Admin Only) --}}
-                                        @if (Auth::user()->isAdmin())
+                                        @if (Auth::check() && Auth::user()->isAdmin())
                                         <form
                                             action="{{ route('reports.destroy', $report) }}"
                                             method="POST"

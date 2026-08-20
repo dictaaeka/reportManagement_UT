@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Notifications\SystemNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -38,12 +40,25 @@ class UserController extends Controller
             'role' => 'required|in:admin,user',
         ]);
 
-        User::create([
+        $newUser = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
         ]);
+
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'add_user',
+                    Auth::user()->name . ' menambahkan user',
+                    $newUser->name
+                )
+            );
+        }
 
         return redirect()
             ->route('users.index')
@@ -111,6 +126,19 @@ class UserController extends Controller
 
         $user->save();
 
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'edit_user',
+                    Auth::user()->name . ' mengedit user',
+                    $user->name
+                )
+            );
+        }
+
         return redirect()
             ->route('users.index')
             ->with('success', 'User berhasil diperbarui.');
@@ -142,7 +170,22 @@ class UserController extends Controller
                 ->with('error', 'Admin terakhir tidak dapat dihapus. Sistem harus memiliki minimal satu Admin.');
         }
 
+        $userName = $user->name;
+
         $user->delete();
+
+        // NOTIFICATION UNTUK SEMUA ADMIN
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(
+                new SystemNotification(
+                    'delete_user',
+                    Auth::user()->name . ' menghapus user',
+                    $userName
+                )
+            );
+        }
 
         return redirect()
             ->route('users.index')

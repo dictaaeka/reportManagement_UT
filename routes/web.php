@@ -16,12 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $user = auth()->user();
-
-    if (!$user) {
-        return redirect()->route('login');
-    }
-
+    // Semua orang (guest, user, admin) langsung diarahkan ke halaman Reports.
+    // Login hanya diperlukan kalau mau melakukan CRUD (lihat grup admin di bawah).
     return redirect()->route('reports.index');
 });
 
@@ -33,9 +29,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::middleware('admin')->group(function () {
-        // Reports — create/store/edit/update/destroy khusus Admin
-        // HARUS didaftarkan SEBELUM index/show, biar /reports/create
-        // gak ketiban wildcard /reports/{report}
+        // Reports — create/store/edit/update/destroy khusus Admin.
+        // HARUS didaftarkan SEBELUM reports.show (wildcard /reports/{report})
+        // di bawah, biar /reports/create tidak ketiban wildcard.
         Route::resource('reports', ReportController::class)->only([
             'create', 'store', 'edit', 'update', 'destroy',
         ]);
@@ -53,10 +49,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('customers', CustomerController::class)->except(['show']);
     });
 
-    // Reports — index & show boleh diakses semua user yang login
-    // Didaftarkan SETELAH blok admin di atas
-    Route::resource('reports', ReportController::class)->only(['index', 'show']);
-
     /*
     |--------------------------------------------------------------------------
     | Notification
@@ -72,22 +64,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/notifications/read-all',
         [NotificationController::class, 'markAllAsRead']
     )->name('notifications.readAll');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Report Preview & Download
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get(
-        'reports/{report}/preview',
-        [ReportController::class, 'preview']
-    )->name('reports.preview');
-
-    Route::get(
-        'reports/{report}/download',
-        [ReportController::class, 'download']
-    )->name('reports.download');
 
     /*
     |--------------------------------------------------------------------------
@@ -110,5 +86,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
         [ProfileController::class, 'destroy']
     )->name('profile.destroy');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Reports — Public (Guest, User, Admin)
+|--------------------------------------------------------------------------
+| index/show/preview/download boleh diakses TANPA login.
+| File PDF tetap aman karena selalu di-stream lewat controller dari disk
+| 'local' (private) — tidak pernah lewat URL publik langsung.
+| Didaftarkan SETELAH grup admin di atas supaya /reports/create tetap
+| menang atas wildcard /reports/{report} di bawah ini.
+*/
+Route::resource('reports', ReportController::class)->only(['index', 'show']);
+
+Route::get(
+    'reports/{report}/preview',
+    [ReportController::class, 'preview']
+)->name('reports.preview');
+
+Route::get(
+    'reports/{report}/download',
+    [ReportController::class, 'download']
+)->name('reports.download');
 
 require __DIR__ . '/auth.php';

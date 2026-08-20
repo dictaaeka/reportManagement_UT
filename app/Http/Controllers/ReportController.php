@@ -341,13 +341,18 @@ class ReportController extends Controller
             abort(404);
         }
 
-        Auth::user()->notify(
-            new SystemNotification(
-                'download_report',
-                'Laporan diunduh',
-                $report->customer?->name ?? '-'
-            )
-        );
+        // Guest (belum login) juga boleh download, tapi tidak punya akun
+        // untuk dikirimi notifikasi — jadi notifikasi hanya dikirim kalau
+        // yang download sedang login (user atau admin).
+        if (Auth::check()) {
+            Auth::user()->notify(
+                new SystemNotification(
+                    'download_report',
+                    'Laporan diunduh',
+                    $report->customer?->name ?? '-'
+                )
+            );
+        }
 
         return response()->download(
             $disk->path($report->file_path),

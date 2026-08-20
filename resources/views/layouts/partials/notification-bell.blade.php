@@ -157,21 +157,24 @@
                                             'add_report',
                                             'add_issue',
                                             'add_site',
-                                            'add_customer'
+                                            'add_customer',
+                                            'add_user'
                                                 => 'bg-indigo-50 text-indigo-600',
 
                                             'report_updated',
                                             'edit_report',
                                             'edit_issue',
                                             'edit_site',
-                                            'edit_customer'
+                                            'edit_customer',
+                                            'edit_user'
                                                 => 'bg-blue-50 text-blue-600',
 
                                             'report_deleted',
                                             'delete_report',
                                             'delete_issue',
                                             'delete_site',
-                                            'delete_customer'
+                                            'delete_customer',
+                                            'delete_user'
                                                 => 'bg-red-50 text-red-600',
 
                                             default
@@ -188,7 +191,8 @@
                             'add_report',
                             'add_issue',
                             'add_site',
-                            'add_customer'
+                            'add_customer',
+                            'add_user'
                             ]
                             )
                             )
@@ -210,7 +214,7 @@
                             @elseif (
                             in_array(
                             $type,
-                            ['report_updated', 'edit_report']
+                            ['report_updated', 'edit_report', 'edit_issue', 'edit_site', 'edit_customer', 'edit_user']
                             )
                             )
 
@@ -240,7 +244,8 @@
                             'delete_report',
                             'delete_issue',
                             'delete_site',
-                            'delete_customer']
+                            'delete_customer',
+                            'delete_user']
                             )
                             )
 
