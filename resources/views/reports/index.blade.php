@@ -50,7 +50,7 @@
                 {{-- Upload (Admin Only) --}}
                 @if (Auth::check() && Auth::user()->isAdmin())
                 
-                    href="{{ route('reports.create') }}"
+                 <a href="{{ route('reports.create') }}"
                     class="reports-upload-button">
 
                     <svg
@@ -600,7 +600,7 @@
 
                                         {{-- VIEW --}}
                                         
-                                            href="{{ route('reports.preview', $report) }}"
+                                        <a  href="{{ route('reports.preview', $report) }}"
                                             target="_blank"
                                             title="Lihat PDF"
                                             aria-label="Lihat PDF"
@@ -611,18 +611,18 @@
 
                                         {{-- DOWNLOAD --}}
                                         
-                                            href="{{ route('reports.download', $report) }}"
+                                        <a href="{{ route('reports.download', $report) }}"
                                             title="Download PDF"
                                             aria-label="Download PDF"
                                             class="report-action-button report-action-download">
                                             Download
                                         </a>
 
-
+                                        
                                         {{-- EDIT (Admin Only) --}}
                                         @if (Auth::check() && Auth::user()->isAdmin())
                                         
-                                            href="{{ route('reports.edit', $report) }}"
+                                        <a  href="{{ route('reports.edit', $report) }}"
                                             title="Edit"
                                             aria-label="Edit laporan"
                                             class="report-action-button report-action-edit">

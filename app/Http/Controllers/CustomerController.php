@@ -101,6 +101,12 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer)
     {
+        if ($customer->reports()->exists()) {
+            return redirect()
+                ->route('customers.index')
+                ->with('error', 'Customer tidak dapat dihapus karena masih digunakan oleh laporan.');
+        }
+
         $customerName = $customer->name;
 
         $customer->delete();

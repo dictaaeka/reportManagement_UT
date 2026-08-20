@@ -134,7 +134,9 @@
                     <form
                         action="{{ route('reports.update', $report) }}"
                         method="POST"
-                        enctype="multipart/form-data">
+                        enctype="multipart/form-data"
+                        x-data="{ isSubmitting: false }"
+                        @submit="isSubmitting = true">
 
                         @csrf
                         @method('PUT')
@@ -427,7 +429,8 @@
 
                             <a
                                 href="{{ route('reports.index') }}"
-                                class="reports-cancel-button">
+                                class="reports-cancel-button"
+                                :class="{ 'pointer-events-none opacity-50': isSubmitting }">
 
                                 Batal
 
@@ -436,9 +439,21 @@
 
                             <button
                                 type="submit"
-                                class="reports-submit-button">
+                                class="reports-submit-button"
+                                :disabled="isSubmitting"
+                                :class="{ 'opacity-60 cursor-not-allowed': isSubmitting }">
+
+                                <svg x-show="isSubmitting"
+                                    x-cloak
+                                    class="h-5 w-5 animate-spin"
+                                    viewBox="0 0 24 24"
+                                    fill="none">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                                </svg>
 
                                 <svg
+                                    x-show="!isSubmitting"
                                     class="h-5 w-5"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -458,7 +473,7 @@
 
                                 </svg>
 
-                                Simpan Perubahan
+                                <span x-text="isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan'"></span>
 
                             </button>
 

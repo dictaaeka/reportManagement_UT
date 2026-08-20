@@ -146,7 +146,9 @@
 
                     <form action="{{ route('reports.store') }}"
                         method="POST"
-                        enctype="multipart/form-data">
+                        enctype="multipart/form-data"
+                        x-data="{ isSubmitting: false }"
+                        @submit="isSubmitting = true">
 
                         @csrf
 
@@ -425,7 +427,8 @@
                         <div class="reports-upload-actions">
 
                             <a href="{{ route('reports.index') }}"
-                                class="reports-cancel-button">
+                                class="reports-cancel-button"
+                                :class="{ 'pointer-events-none opacity-50': isSubmitting }">
 
                                 Batal
 
@@ -433,9 +436,20 @@
 
                             <button
                                 type="submit"
-                                class="reports-submit-button">
+                                class="reports-submit-button"
+                                :disabled="isSubmitting"
+                                :class="{ 'opacity-60 cursor-not-allowed': isSubmitting }">
 
-                                Upload Laporan
+                                <svg x-show="isSubmitting"
+                                    x-cloak
+                                    class="inline-block h-4 w-4 mr-2 animate-spin"
+                                    viewBox="0 0 24 24"
+                                    fill="none">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                                </svg>
+
+                                <span x-text="isSubmitting ? 'Mengunggah...' : 'Upload Laporan'"></span>
 
                             </button>
 

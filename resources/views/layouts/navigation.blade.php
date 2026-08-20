@@ -45,7 +45,7 @@
                 </a>
 
 
-                @if (Auth::user()->isAdmin())
+                @if (Auth::check() && Auth::user()->isAdmin())
                 <!-- Issues -->
                 <a href="{{ route('issues.index') }}"
                     class="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition
@@ -201,6 +201,7 @@
                     </svg>
                 </button>
 
+                @auth
                 <!-- =====================================================
                      NOTIFICATION
                      ===================================================== -->
@@ -296,6 +297,16 @@
                     </x-slot>
 
                 </x-dropdown>
+                @else
+                <!-- =====================================================
+                     GUEST: TOMBOL LOGIN
+                     ===================================================== -->
+                <a href="{{ route('login') }}"
+                    class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium
+                           bg-indigo-600 text-white hover:bg-indigo-700 transition">
+                    {{ __('Login') }}
+                </a>
+                @endauth
 
             </div>
 
@@ -318,7 +329,9 @@
                     </svg>
                 </button>
 
+                @auth
                 @include('layouts.partials.notification-bell')
+                @endauth
 
                 <button
                     @click="open = ! open"
@@ -366,7 +379,7 @@
 
         <div class="px-4 pt-3 pb-3 space-y-1">
 
-            
+            <a
                 href="{{ route('reports.index') }}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
                 {{ request()->routeIs('reports.*')
@@ -376,8 +389,8 @@
             </a>
 
 
-            @if (Auth::user()->isAdmin())
-            
+            @if (Auth::check() && Auth::user()->isAdmin())
+            <a
                 href="{{ route('issues.index') }}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
                     {{ request()->routeIs('issues.*')
@@ -387,7 +400,7 @@
             </a>
 
 
-            
+            <a
                 href="{{ route('sites.index') }}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
                     {{ request()->routeIs('sites.*')
@@ -396,7 +409,7 @@
                 <span>Sites</span>
             </a>
 
-            
+            <a
                 href="{{ route('customers.index') }}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
                     {{ request()->routeIs('customers.*')
@@ -405,7 +418,7 @@
                 <span>Customers</span>
             </a>
 
-            
+            <a
                 href="{{ route('users.index') }}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
     {{ request()->routeIs('users.*')
@@ -421,6 +434,7 @@
 
         <div class="border-t border-gray-100 px-4 py-4">
 
+            @auth
             <div class="flex items-center gap-3 mb-3">
 
                 <span
@@ -485,6 +499,13 @@
                 </form>
 
             </div>
+            @else
+            <a href="{{ route('login') }}"
+                class="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium
+                       bg-indigo-600 text-white hover:bg-indigo-700 transition">
+                {{ __('Login') }}
+            </a>
+            @endauth
 
         </div>
 
