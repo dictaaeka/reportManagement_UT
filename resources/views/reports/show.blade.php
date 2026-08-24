@@ -42,7 +42,9 @@
                 <div class="flex flex-wrap gap-3">
                     <a href="{{ route('reports.preview', $report) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-white hover:bg-indigo-700">Preview PDF</a>
                     <a href="{{ route('reports.download', $report) }}" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-white hover:bg-green-700">Download PDF</a>
+                    @if (Auth::check() && Auth::user()->isAdmin())
                     <a href="{{ route('reports.edit', $report) }}" class="inline-flex items-center px-4 py-2 bg-slate-600 border border-transparent rounded-md font-semibold text-white hover:bg-slate-700">Edit</a>
+                    @endif
                 </div>
             </div>
         </div>
