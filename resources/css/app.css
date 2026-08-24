@@ -649,14 +649,13 @@
        ========================================================= */
 
     .report-stats-grid {
-        display: grid;
-
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-
-        gap: 18px;
-
-        margin-bottom: 24px;
+        display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 18px;
+    width: 100% !important;   /* sebelumnya 100px, itu penyebab card-nya remuk */
+    max-width: none !important;
+    margin-bottom: 24px;
+    box-sizing: border-box;
     }
 
 
@@ -667,6 +666,8 @@
     .report-stat-card {
         position: relative;
 
+        width: 100%;
+        min-width: 0;
         min-height: 112px;
 
         display: flex;
@@ -674,6 +675,7 @@
 
         padding: 20px;
 
+        box-sizing: border-box;
         overflow: hidden;
 
         background: #ffffff;
@@ -743,6 +745,11 @@
     .report-stat-icon-reports {
         background: #fff7ed;
         color: #ea580c;
+    }
+
+    .report-stat-icon-unit-models {
+        background: #f5f3ff;
+        color: #7c3aed;
     }
 
 
@@ -824,6 +831,10 @@
 
     .report-stat-decoration-reports {
         background: #fff7ed;
+    }
+
+    .report-stat-decoration-unit-models {
+        background: #f5f3ff;
     }
 
 
@@ -1695,14 +1706,12 @@
     /* =====================================================
        RESPONSIVE
        ===================================================== */
-
     @media (max-width: 900px) {
 
         .report-stats-grid {
-            grid-template-columns: 1fr;
-            gap: 12px;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 14px;
         }
-
 
         .recent-reports-header {
             align-items: flex-start;
@@ -1722,6 +1731,11 @@
 
 
     @media (max-width: 640px) {
+
+        .report-stats-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
 
         .reports-header {
             border-radius: 14px;
@@ -2126,6 +2140,11 @@ html.dark {
     color: #fdba74;
 }
 
+.dark .report-stat-icon-unit-models {
+    background: #4c1d95;
+    color: #c4b5fd;
+}
+
 .dark .report-stat-decoration-issues {
     background: #312e81;
 }
@@ -2138,6 +2157,10 @@ html.dark {
     background: #7c2d12;
 }
 
+.dark .report-stat-icon-unit-models {
+    background: #4c1d95;
+    color: #c4b5fd;
+}
 
 /* =========================================================
    RECENT REPORTS

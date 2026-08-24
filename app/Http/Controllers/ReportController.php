@@ -8,6 +8,7 @@ use App\Models\Issue;
 use App\Models\Report;
 use App\Models\Site;
 use App\Models\User;
+use App\Models\UnitModel;
 use App\Notifications\SystemNotification;
 use App\Services\PdfCompressorService;
 use Illuminate\Http\Request;
@@ -17,30 +18,62 @@ use Illuminate\Support\Str;
 
 class ReportController extends Controller
 {
+    /**
+     * Menampilkan daftar laporan
+     */
     public function index(Request $request)
     {
         $issues = Issue::orderBy('name')->get();
         $sites = Site::orderBy('name')->get();
         $customers = Customer::orderBy('name')->get();
+        $unitModels = UnitModel::orderBy('name')->get();
 
-        $query = Report::with(['issue', 'site', 'customer', 'uploader']);
+        $query = Report::with([
+            'issue',
+            'site',
+            'customer',
+            'unitModel',
+            'uploader',
+        ]);
 
+        /*
+         * FILTER ISSUE
+         */
         if ($request->filled('issue')) {
             $query->where('issue_id', $request->issue);
         }
 
+        /*
+         * FILTER SITE
+         */
         if ($request->filled('site')) {
             $query->where('site_id', $request->site);
         }
 
+        /*
+         * FILTER UNIT MODEL
+         */
+        if ($request->filled('unit_model')) {
+            $query->where('unit_model_id', $request->unit_model);
+        }
+
+        /*
+         * FILTER MONTH
+         */
         if ($request->filled('month')) {
             $query->where('month', $request->month);
         }
 
+        /*
+         * FILTER YEAR
+         */
         if ($request->filled('year')) {
             $query->where('year', $request->year);
         }
 
+        /*
+         * SEARCH
+         */
         if ($request->filled('search')) {
             $keyword = $request->search;
 
@@ -54,39 +87,59 @@ class ReportController extends Controller
                     })
                     ->orWhereHas('site', function ($q) use ($keyword) {
                         $q->where('name', 'like', "%{$keyword}%");
+                    })
+                    ->orWhereHas('unitModel', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
                     });
             });
         }
 
-        $reports = $query->latest()->paginate(12);
+        $reports = $query
+            ->latest()
+            ->paginate(12);
 
         /** @var \Illuminate\Pagination\LengthAwarePaginator $reports */
         $reports->withQueryString();
 
         return view('reports.index', [
             'reports' => $reports,
+
             'issues' => $issues,
             'sites' => $sites,
             'customers' => $customers,
+            'unitModels' => $unitModels,
+
             'issueCount' => Issue::count(),
             'siteCount' => Site::count(),
             'reportCount' => Report::count(),
+            'unitModelCount' => UnitModel::count(),
+
             'latestReports' => Report::with([
                 'issue',
                 'site',
                 'customer',
-            ])->latest()->limit(5)->get(),
+                'unitModel',
+            ])
+                ->latest()
+                ->limit(5)
+                ->get(),
         ]);
     }
 
+
+    /**
+     * Form tambah laporan
+     */
     public function create()
     {
         return view('reports.create', [
             'issues' => Issue::orderBy('name')->get(),
             'sites' => Site::orderBy('name')->get(),
             'customers' => Customer::orderBy('name')->get(),
+            'unitModels' => UnitModel::orderBy('name')->get(),
         ]);
     }
+
 
     /**
      * Tambah laporan baru
@@ -94,6 +147,7 @@ class ReportController extends Controller
     public function store(ReportRequest $request)
     {
         $file = $request->file('file');
+
         $originalName = $file->getClientOriginalName();
 
         $storedName = now()->timestamp . '_'
@@ -107,15 +161,21 @@ class ReportController extends Controller
             'local'
         );
 
-        // Kompres PDF supaya lebih hemat space (aman kalau Ghostscript belum ada).
+        /*
+         * Kompres PDF supaya lebih hemat storage.
+         * Aman jika Ghostscript belum tersedia.
+         */
         $absolutePath = Storage::disk('local')->path($path);
+
         (new PdfCompressorService())->compress($absolutePath);
+
         $finalSize = filesize($absolutePath);
 
         $report = Report::create([
             'issue_id' => $request->issue_id,
             'site_id' => $request->site_id,
             'customer_id' => $request->customer_id,
+            'unit_model_id' => $request->unit_model_id,
             'month' => $request->month,
             'year' => $request->year,
             'file_name' => $originalName,
@@ -160,54 +220,80 @@ class ReportController extends Controller
             ->with('success', 'Laporan berhasil diunggah.');
     }
 
+
+    /**
+     * Detail laporan
+     */
     public function show(Report $report)
     {
         $report->load([
             'issue',
             'site',
             'customer',
+            'unitModel',
             'uploader',
         ]);
 
         return view('reports.show', compact('report'));
     }
 
+
+    /**
+     * Form edit laporan
+     */
     public function edit(Report $report)
     {
         $report->load([
             'issue',
             'site',
             'customer',
+            'unitModel',
         ]);
 
         return view('reports.edit', [
             'report' => $report,
+
             'issues' => Issue::orderBy('name')->get(),
             'sites' => Site::orderBy('name')->get(),
             'customers' => Customer::orderBy('name')->get(),
+            'unitModels' => UnitModel::orderBy('name')->get(),
         ]);
     }
+
 
     /**
      * Edit laporan
      */
-    public function update(ReportRequest $request, Report $report)
-    {
+    public function update(
+        ReportRequest $request,
+        Report $report
+    ) {
         $report->issue_id = $request->issue_id;
         $report->site_id = $request->site_id;
+        $report->customer_id = $request->customer_id;
+        $report->unit_model_id = $request->unit_model_id;
         $report->month = $request->month;
         $report->year = $request->year;
-        $report->customer_id = $request->customer_id;
 
+        /*
+         * Jika user mengganti file PDF
+         */
         if ($request->hasFile('file')) {
+
+            /*
+             * Hapus file lama
+             */
             if (
                 $report->file_path &&
                 Storage::disk('local')->exists($report->file_path)
             ) {
-                Storage::disk('local')->delete($report->file_path);
+                Storage::disk('local')->delete(
+                    $report->file_path
+                );
             }
 
             $file = $request->file('file');
+
             $originalName = $file->getClientOriginalName();
 
             $storedName = now()->timestamp . '_'
@@ -221,7 +307,11 @@ class ReportController extends Controller
                 'local'
             );
 
+            /*
+             * Kompres PDF
+             */
             $absolutePath = Storage::disk('local')->path($path);
+
             (new PdfCompressorService())->compress($absolutePath);
 
             $report->file_name = $originalName;
@@ -267,6 +357,7 @@ class ReportController extends Controller
             ->with('success', 'Laporan berhasil diperbarui.');
     }
 
+
     /**
      * Hapus laporan
      */
@@ -276,6 +367,9 @@ class ReportController extends Controller
 
         $disk = Storage::disk('local');
 
+        /*
+         * Hapus file PDF
+         */
         if (
             $report->file_path &&
             $disk->exists($report->file_path)
@@ -283,6 +377,9 @@ class ReportController extends Controller
             $disk->delete($report->file_path);
         }
 
+        /*
+         * Hapus data laporan
+         */
         $report->delete();
 
         /*
@@ -320,30 +417,50 @@ class ReportController extends Controller
             ->with('success', 'Laporan berhasil dihapus.');
     }
 
+
+    /**
+     * Preview PDF
+     */
     public function preview(Report $report)
     {
         $disk = Storage::disk('local');
 
-        if (!$report->file_path || !$disk->exists($report->file_path)) {
+        if (
+            !$report->file_path ||
+            !$disk->exists($report->file_path)
+        ) {
             abort(404);
         }
 
-        return response()->file($disk->path($report->file_path), [
-            'Content-Type' => 'application/pdf',
-        ]);
+        return response()->file(
+            $disk->path($report->file_path),
+            [
+                'Content-Type' => 'application/pdf',
+            ]
+        );
     }
 
+
+    /**
+     * Download PDF
+     */
     public function download(Report $report)
     {
         $disk = Storage::disk('local');
 
-        if (!$report->file_path || !$disk->exists($report->file_path)) {
+        if (
+            !$report->file_path ||
+            !$disk->exists($report->file_path)
+        ) {
             abort(404);
         }
 
-        // Guest (belum login) juga boleh download, tapi tidak punya akun
-        // untuk dikirimi notifikasi — jadi notifikasi hanya dikirim kalau
-        // yang download sedang login (user atau admin).
+        /*
+         * Guest tetap boleh download.
+         *
+         * Kalau sedang login, kirim notifikasi download
+         * ke user yang sedang login.
+         */
         if (Auth::check()) {
             Auth::user()->notify(
                 new SystemNotification(

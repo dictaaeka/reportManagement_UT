@@ -7,6 +7,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UnitModelControler;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,7 +34,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // HARUS didaftarkan SEBELUM reports.show (wildcard /reports/{report})
         // di bawah, biar /reports/create tidak ketiban wildcard.
         Route::resource('reports', ReportController::class)->only([
-            'create', 'store', 'edit', 'update', 'destroy',
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy',
         ]);
 
         // Users
@@ -47,6 +52,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Customers
         Route::resource('customers', CustomerController::class)->except(['show']);
+
+        // Unit Models
+        Route::resource('unit-models', UnitModelController::class)
+            ->except(['show']);
     });
 
     /*

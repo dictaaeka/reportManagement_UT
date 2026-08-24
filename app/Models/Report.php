@@ -8,6 +8,7 @@ use App\Models\Issue;
 use App\Models\Site;
 use App\Models\User;
 use App\Models\Customer;
+use App\Models\UnitModel;
 
 class Report extends Model
 {
@@ -24,6 +25,7 @@ class Report extends Model
         'mime_type',
         'file_size',
         'uploader_id',
+        'unit_model_id',
     ];
 
     protected $casts = [
@@ -50,6 +52,11 @@ class Report extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function unitModel()
+    {
+        return $this->belongsTo(UnitModel::class);
     }
 
     /**

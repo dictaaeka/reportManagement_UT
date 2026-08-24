@@ -49,8 +49,8 @@
 
                 {{-- Upload (Admin Only) --}}
                 @if (Auth::check() && Auth::user()->isAdmin())
-                
-                 <a href="{{ route('reports.create') }}"
+
+                <a href="{{ route('reports.create') }}"
                     class="reports-upload-button">
 
                     <svg
@@ -197,6 +197,42 @@
 
                 </div>
 
+                {{-- TOTAL UNIT MODELS --}}
+                <div class="report-stat-card">
+
+                    <div class="report-stat-icon report-stat-icon-reports">
+
+                        <svg
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.8"
+                            stroke="currentColor"
+                            aria-hidden="true">
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M20.25 7.5l-8.25-4.5-8.25 4.5m16.5 0v9L12 21l-8.25-4.5v-9M12 12v9" />
+
+                        </svg>
+
+                    </div>
+
+                    <div class="report-stat-content">
+
+                        <p class="report-stat-label">
+                            Total Unit Model
+                        </p>
+
+                        <p class="report-stat-number">
+                            {{ number_format($unitModelCount) }}
+                        </p>
+
+                    </div>
+
+                    <div class="report-stat-decoration report-stat-decoration-reports"></div>
+
+                </div>
 
 
                 {{-- TOTAL REPORTS --}}
@@ -330,7 +366,7 @@
                     <form
                         method="GET"
                         action="{{ route('reports.index') }}"
-                        class="reports-filter-grid grid gap-4 lg:grid-cols-5">
+                        class="reports-filter-grid grid gap-4 lg:grid-cols-6">
 
 
                         {{-- ISSUE --}}
@@ -395,6 +431,34 @@
 
                         </div>
 
+                        {{-- UNIT MODEL --}}
+                        <div>
+
+                            <label class="reports-filter-label">
+                                Model Unit
+                            </label>
+
+                            <select
+                                name="unit_model"
+                                class="reports-filter-select">
+
+                                <option value="">
+                                    Semua model
+                                </option>
+
+                                @foreach ($unitModels as $unitModel)
+
+                                <option
+                                    value="{{ $unitModel->id }}"
+                                    @selected(request('unit_model')==$unitModel->id)>
+                                    {{ $unitModel->name }}
+                                </option>
+
+                                @endforeach
+
+                            </select>
+
+                        </div>
 
                         {{-- BULAN --}}
                         <div>
@@ -599,8 +663,8 @@
 
 
                                         {{-- VIEW --}}
-                                        
-                                        <a  href="{{ route('reports.preview', $report) }}"
+
+                                        <a href="{{ route('reports.preview', $report) }}"
                                             target="_blank"
                                             title="Lihat PDF"
                                             aria-label="Lihat PDF"
@@ -610,7 +674,7 @@
 
 
                                         {{-- DOWNLOAD --}}
-                                        
+
                                         <a href="{{ route('reports.download', $report) }}"
                                             title="Download PDF"
                                             aria-label="Download PDF"
@@ -618,11 +682,11 @@
                                             Download
                                         </a>
 
-                                        
+
                                         {{-- EDIT (Admin Only) --}}
                                         @if (Auth::check() && Auth::user()->isAdmin())
-                                        
-                                        <a  href="{{ route('reports.edit', $report) }}"
+
+                                        <a href="{{ route('reports.edit', $report) }}"
                                             title="Edit"
                                             aria-label="Edit laporan"
                                             class="report-action-button report-action-edit">

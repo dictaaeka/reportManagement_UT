@@ -29,6 +29,11 @@ class ReportRequest extends FormRequest
                 'exists:customers,id',
             ],
 
+            'unit_model_id' => [
+                'required',
+                'exists:unit_models,id',
+            ],
+
             'month' => [
                 'required',
                 'integer',
@@ -59,6 +64,9 @@ class ReportRequest extends FormRequest
 
             'customer_id.required' => 'Customer wajib dipilih.',
             'customer_id.exists' => 'Customer yang dipilih tidak valid.',
+
+            'unit_model_id.required' => 'Unit model wajib dipilih.',
+            'unit_model_id.exists' => 'Unit model yang dipilih tidak valid.',
 
             'month.required' => 'Bulan wajib dipilih.',
             'month.between' => 'Bulan harus antara Januari sampai Desember.',

@@ -267,6 +267,45 @@
 
                             </div>
 
+                            <!-- Unit Model -->
+                            <div class="reports-upload-field">
+
+                                <label
+                                    for="unit_model_id"
+                                    class="reports-upload-label">
+                                    Unit Model
+                                </label>
+
+                                <select
+                                    id="unit_model_id"
+                                    name="unit_model_id"
+                                    class="reports-upload-select"
+                                    required>
+
+                                    <option value="">
+                                        Pilih Unit Model
+                                    </option>
+
+                                    @foreach ($unitModels as $unitModel)
+
+                                    <option
+                                        value="{{ $unitModel->id }}"
+                                        @selected(old('unit_model_id')==$unitModel->id)>
+                                        {{ $unitModel->name }}
+                                    </option>
+
+                                    @endforeach
+
+                                </select>
+
+                                @error('unit_model_id')
+                                <p class="reports-upload-error">
+                                    {{ $message }}
+                                </p>
+                                @enderror
+
+                            </div>
+
 
                             <!-- Period -->
                             <div class="reports-upload-field">
