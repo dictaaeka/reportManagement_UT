@@ -1,20 +1,36 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Requests;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UnitModel extends Model
+class UnitModelRequest extends FormRequest
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'name',
-    ];
-
-    public function reports()
+    public function authorize(): bool
     {
-        return $this->hasMany(Report::class);
+        return true;
+    }
+
+    public function rules(): array
+    {
+        $unitModelId = $this->route('unit_model')?->id;
+
+        return [
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('unit_models', 'name')->ignore($unitModelId),
+            ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama unit model wajib diisi.',
+            'name.unique' => 'Nama unit model ini sudah ada.',
+        ];
     }
 }

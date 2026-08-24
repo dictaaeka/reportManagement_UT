@@ -7,7 +7,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UnitModelControler;
+use App\Http\Controllers\UnitModelController;
 use Illuminate\Support\Facades\Route;
 
 /*

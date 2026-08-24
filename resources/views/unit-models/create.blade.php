@@ -10,8 +10,8 @@
                     </div>
 
                     <div>
-                        <h2 class="data-management-header-title">{{ __('Edit Unit Model') }}</h2>
-                        <p class="data-management-header-description">Perbarui nama model unit ini.</p>
+                        <h2 class="data-management-header-title">{{ __('Tambah Unit Model') }}</h2>
+                        <p class="data-management-header-description">Buat model unit baru untuk digunakan pada laporan.</p>
                     </div>
                 </div>
 
@@ -33,19 +33,18 @@
 
                         <div>
                             <h3 class="data-management-card-title">Form Unit Model</h3>
-                            <p class="data-management-card-description">Perbarui detail model unit yang dipilih.</p>
+                            <p class="data-management-card-description">Isi nama model unit yang akan ditampilkan di sistem.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="data-management-card-body">
-                    <form action="{{ route('unit-models.update', $unitModel) }}" method="POST" class="data-management-form-grid">
+                    <form action="{{ route('unit-models.store') }}" method="POST" class="data-management-form-grid">
                         @csrf
-                        @method('PUT')
 
                         <div class="data-management-field">
                             <label for="name" class="data-management-label">Nama Unit Model</label>
-                            <input id="name" type="text" name="name" value="{{ old('name', $unitModel->name) }}" class="data-management-input" required autofocus>
+                            <input id="name" type="text" name="name" value="{{ old('name') }}" class="data-management-input" required autofocus>
                             @error('name')
                             <p class="data-management-error">{{ $message }}</p>
                             @enderror
@@ -53,7 +52,7 @@
 
                         <div class="data-management-form-actions">
                             <a href="{{ route('unit-models.index') }}" class="data-management-cancel-button">Batal</a>
-                            <button type="submit" class="data-management-submit-button">Simpan Perubahan</button>
+                            <button type="submit" class="data-management-submit-button">Simpan</button>
                         </div>
                     </form>
                 </div>

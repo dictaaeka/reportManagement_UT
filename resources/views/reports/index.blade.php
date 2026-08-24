@@ -576,6 +576,10 @@
                                 </th>
 
                                 <th style="text-align: center;">
+                                    Unit Model
+                                </th>
+
+                                <th style="text-align: center;">
                                     Periode
                                 </th>
 
@@ -618,7 +622,14 @@
                                     </span>
 
                                 </td>
+{{-- UNIT MODEL --}}
+<td style="text-align: center;">
 
+    <span class="report-issue-site">
+        {{ $report->unitModel->name ?? '—' }}
+    </span>
+
+</td>
 
                                 {{-- PERIOD --}}
                                 <td>
@@ -728,7 +739,7 @@
 
                             <tr>
 
-                                <td colspan="5" style="padding: 0;">
+                                <td colspan="6" style="padding: 0;">
 
                                     <div class="reports-empty-state">
 

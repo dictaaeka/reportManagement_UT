@@ -260,6 +260,14 @@
        FORM GRID
        ===================================================== */
 
+    .form-row-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px 16px;
+        width: 100%;
+    }
+
+
     .reports-upload-form-grid {
         display: grid;
 
@@ -650,12 +658,13 @@
 
     .report-stats-grid {
         display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 18px;
-    width: 100% !important;   /* sebelumnya 100px, itu penyebab card-nya remuk */
-    max-width: none !important;
-    margin-bottom: 24px;
-    box-sizing: border-box;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 18px;
+        width: 100% !important;
+        /* sebelumnya 100px, itu penyebab card-nya remuk */
+        max-width: none !important;
+        margin-bottom: 24px;
+        box-sizing: border-box;
     }
 
 
@@ -1718,6 +1727,10 @@
             gap: 12px;
         }
 
+
+        .form-row-3 {
+            grid-template-columns: 1fr;
+        }
 
         .reports-upload-form-grid {
             grid-template-columns: 1fr;

@@ -47,8 +47,8 @@
 
 
                 {{-- Back --}}
-                <a
-                    href="{{ route('reports.index') }}"
+                
+                    <a href="{{ route('reports.index') }}"
                     class="reports-back-button">
 
                     <svg
@@ -58,12 +58,7 @@
                         stroke-width="2"
                         stroke="currentColor"
                         aria-hidden="true">
-
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
 
                     Kembali
@@ -82,47 +77,22 @@
 
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
 
-            {{-- UPLOAD / EDIT CARD --}}
+            {{-- EDIT CARD --}}
             <div class="reports-upload-card">
 
                 {{-- CARD HEADER --}}
                 <div class="reports-upload-card-header">
 
                     <div class="reports-upload-card-icon">
-
-                        <svg
-                            class="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.8"
-                            stroke="currentColor"
-                            aria-hidden="true">
-
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 15.89a4.5 4.5 0 01-1.897 1.13L6 18l.98-2.685a4.5 4.5 0 011.13-1.897L16.862 4.487z" />
-
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M19.5 7.125L16.875 4.5" />
-
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 15.89a4.5 4.5 0 01-1.897 1.13L6 18l.98-2.685a4.5 4.5 0 011.13-1.897L16.862 4.487z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.125L16.875 4.5" />
                         </svg>
-
                     </div>
 
-
                     <div>
-
-                        <h3 class="reports-upload-card-title">
-                            Edit Informasi Laporan
-                        </h3>
-
-                        <p class="reports-upload-card-description">
-                            Perbarui informasi laporan dan file PDF jika diperlukan.
-                        </p>
-
+                        <h3 class="reports-upload-card-title">Edit Informasi Laporan</h3>
+                        <p class="reports-upload-card-description">Perbarui informasi laporan dan file PDF jika diperlukan.</p>
                     </div>
 
                 </div>
@@ -142,321 +112,154 @@
                         @method('PUT')
 
 
-                        {{-- FORM GRID --}}
-                        <div class="reports-upload-form-grid">
+                        {{-- ================================================
+                             BARIS 1 : Nama Customer | Issue | Site
+                             ================================================ --}}
+                        <div class="form-row-3">
 
                             {{-- Nama Customer --}}
                             <div class="reports-upload-field">
-
-                                <label
-                                    for="customer_id"
-                                    class="reports-upload-label">
-                                    Nama Customer
-                                </label>
-
-                                <select
-                                    id="customer_id"
-                                    name="customer_id"
-                                    class="reports-upload-select"
-                                    required>
+                                <label for="customer_id" class="reports-upload-label">Nama Customer</label>
+                                <select id="customer_id" name="customer_id" class="reports-upload-select" required>
                                     <option value="">Pilih Customer</option>
-
                                     @foreach ($customers as $customer)
-                                    <option
-                                        value="{{ $customer->id }}"
-                                        {{ old('customer_id', $report->customer_id) == $customer->id ? 'selected' : '' }}>
+                                    <option value="{{ $customer->id }}" {{ old('customer_id', $report->customer_id) == $customer->id ? 'selected' : '' }}>
                                         {{ $customer->name }}
                                     </option>
                                     @endforeach
                                 </select>
-
                                 @error('customer_id')
-                                <p class="reports-upload-error">
-                                    {{ $message }}
-                                </p>
+                                <p class="reports-upload-error">{{ $message }}</p>
                                 @enderror
-
                             </div>
-
 
                             {{-- Issue --}}
                             <div class="reports-upload-field">
-
-                                <label
-                                    for="issue_id"
-                                    class="reports-upload-label">
-                                    Issue
-                                </label>
-
-                                <select
-                                    id="issue_id"
-                                    name="issue_id"
-                                    class="reports-upload-select"
-                                    required>
-
-                                    <option value="">
-                                        Pilih issue
-                                    </option>
-
+                                <label for="issue_id" class="reports-upload-label">Issue</label>
+                                <select id="issue_id" name="issue_id" class="reports-upload-select" required>
+                                    <option value="">Pilih Issue</option>
                                     @foreach ($issues as $issue)
-
-                                    <option
-                                        value="{{ $issue->id }}"
-                                        @selected(old('issue_id', $report->issue_id) == $issue->id)>
+                                    <option value="{{ $issue->id }}" @selected(old('issue_id', $report->issue_id) == $issue->id)>
                                         {{ $issue->name }}
                                     </option>
-
                                     @endforeach
-
                                 </select>
-
                                 @error('issue_id')
-                                <p class="reports-upload-error">
-                                    {{ $message }}
-                                </p>
+                                <p class="reports-upload-error">{{ $message }}</p>
                                 @enderror
-
                             </div>
-
 
                             {{-- Site --}}
                             <div class="reports-upload-field">
-
-                                <label
-                                    for="site_id"
-                                    class="reports-upload-label">
-                                    Site
-                                </label>
-
-                                <select
-                                    id="site_id"
-                                    name="site_id"
-                                    class="reports-upload-select"
-                                    required>
-
-                                    <option value="">
-                                        Pilih site
-                                    </option>
-
+                                <label for="site_id" class="reports-upload-label">Site</label>
+                                <select id="site_id" name="site_id" class="reports-upload-select" required>
+                                    <option value="">Pilih Site</option>
                                     @foreach ($sites as $site)
-
-                                    <option
-                                        value="{{ $site->id }}"
-                                        @selected(old('site_id', $report->site_id) == $site->id)>
+                                    <option value="{{ $site->id }}" @selected(old('site_id', $report->site_id) == $site->id)>
                                         {{ $site->name }}
                                     </option>
-
                                     @endforeach
-
                                 </select>
-
                                 @error('site_id')
-                                <p class="reports-upload-error">
-                                    {{ $message }}
-                                </p>
+                                <p class="reports-upload-error">{{ $message }}</p>
                                 @enderror
-
-                            </div>
-
-                            <!-- Unit Model -->
-                            <div class="reports-upload-field">
-
-                                <label
-                                    for="unit_model_id"
-                                    class="reports-upload-label">
-                                    Unit Model
-                                </label>
-
-                                <select
-                                    id="unit_model_id"
-                                    name="unit_model_id"
-                                    class="reports-upload-select"
-                                    required>
-
-                                    <option value="">
-                                        Pilih Unit Model
-                                    </option>
-
-                                    @foreach ($unitModels as $unitModel)
-
-                                    <option
-                                        value="{{ $unitModel->id }}"
-                                        @selected(old('unit_model_id')==$unitModel->id)>
-                                        {{ $unitModel->name }}
-                                    </option>
-
-                                    @endforeach
-
-                                </select>
-
-                                @error('unit_model_id')
-                                <p class="reports-upload-error">
-                                    {{ $message }}
-                                </p>
-                                @enderror
-
-                            </div>
-
-                            {{-- Bulan & Tahun --}}
-                            <div class="reports-upload-field">
-
-                                <div class="reports-upload-period">
-
-                                    {{-- Bulan --}}
-                                    <div>
-
-                                        <label
-                                            for="month"
-                                            class="reports-upload-label">
-                                            Bulan
-                                        </label>
-
-                                        <select
-                                            id="month"
-                                            name="month"
-                                            class="reports-upload-select"
-                                            required>
-                                            <option value="">Pilih Bulan</option>
-
-                                            @php
-                                            $months = [
-                                            1 => 'Januari',
-                                            2 => 'Februari',
-                                            3 => 'Maret',
-                                            4 => 'April',
-                                            5 => 'Mei',
-                                            6 => 'Juni',
-                                            7 => 'Juli',
-                                            8 => 'Agustus',
-                                            9 => 'September',
-                                            10 => 'Oktober',
-                                            11 => 'November',
-                                            12 => 'Desember',
-                                            ];
-                                            @endphp
-
-                                            @foreach ($months as $value => $label)
-                                            <option
-                                                value="{{ $value }}"
-                                                {{ old('month', $report->month) == $value ? 'selected' : '' }}>
-                                                {{ $label }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-
-                                        @error('month')
-                                        <p class="reports-upload-error">
-                                            {{ $message }}
-                                        </p>
-                                        @enderror
-
-                                    </div>
-
-
-                                    {{-- Tahun --}}
-                                    <div>
-
-                                        <label
-                                            for="year"
-                                            class="reports-upload-label">
-                                            Tahun
-                                        </label>
-
-                                        <input
-                                            id="year"
-                                            type="number"
-                                            name="year"
-                                            value="{{ old('year', $report->year) }}"
-                                            min="1900"
-                                            max="2100"
-                                            placeholder="2026"
-                                            class="reports-upload-input"
-                                            required>
-
-                                        @error('year')
-                                        <p class="reports-upload-error">
-                                            {{ $message }}
-                                        </p>
-                                        @enderror
-
-                                    </div>
-
-                                </div>
-
                             </div>
 
                         </div>
 
 
-                        {{-- CURRENT FILE --}}
+                        {{-- ================================================
+                             BARIS 2 : Unit Model | Bulan | Tahun
+                             ================================================ --}}
+                        <div class="form-row-3" style="margin-top: 18px;">
+
+                            {{-- Unit Model --}}
+                            <div class="reports-upload-field">
+                                <label for="unit_model_id" class="reports-upload-label">Unit Model</label>
+                                <select id="unit_model_id" name="unit_model_id" class="reports-upload-select" required>
+                                    <option value="">Pilih Unit Model</option>
+                                    @foreach ($unitModels as $unitModel)
+                                    <option value="{{ $unitModel->id }}" @selected(old('unit_model_id', $report->unit_model_id) == $unitModel->id)>
+                                        {{ $unitModel->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('unit_model_id')
+                                <p class="reports-upload-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            {{-- Bulan --}}
+                            <div class="reports-upload-field">
+                                <label for="month" class="reports-upload-label">Bulan</label>
+                                @php
+                                $months = [
+                                    1 => 'Januari', 2 => 'Februari', 3 => 'Maret',
+                                    4 => 'April', 5 => 'Mei', 6 => 'Juni',
+                                    7 => 'Juli', 8 => 'Agustus', 9 => 'September',
+                                    10 => 'Oktober', 11 => 'November', 12 => 'Desember',
+                                ];
+                                @endphp
+                                <select id="month" name="month" class="reports-upload-select" required>
+                                    <option value="">Pilih Bulan</option>
+                                    @foreach ($months as $value => $label)
+                                    <option value="{{ $value }}" {{ old('month', $report->month) == $value ? 'selected' : '' }}>
+                                        {{ $label }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('month')
+                                <p class="reports-upload-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            {{-- Tahun --}}
+                            <div class="reports-upload-field">
+                                <label for="year" class="reports-upload-label">Tahun</label>
+                                <input
+                                    id="year"
+                                    type="number"
+                                    name="year"
+                                    value="{{ old('year', $report->year) }}"
+                                    min="1900"
+                                    max="2100"
+                                    placeholder="2026"
+                                    class="reports-upload-input"
+                                    required>
+                                @error('year')
+                                <p class="reports-upload-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                        </div>
+
+
+                        {{-- ================================================
+                             FILE PDF
+                             ================================================ --}}
                         <div class="reports-upload-file-wrapper">
 
-                            <label class="reports-upload-label">
-                                File PDF
-                            </label>
+                            <label class="reports-upload-label">File PDF</label>
 
+                            <label for="file" class="reports-upload-file">
 
-                            <label
-                                for="file"
-                                class="reports-upload-file">
-
-                                {{-- Icon --}}
                                 <div class="reports-upload-file-icon">
-
-                                    <svg
-                                        class="h-6 w-6"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.8"
-                                        stroke="currentColor"
-                                        aria-hidden="true">
-
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M12 16.5V3.75m0 0L7.5 8.25M12 3.75l4.5 4.5" />
-
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M5.25 13.5v4.875A2.625 2.625 0 007.875 21h8.25a2.625 2.625 0 002.625-2.625V13.5" />
-
+                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V3.75m0 0L7.5 8.25M12 3.75l4.5 4.5" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 13.5v4.875A2.625 2.625 0 007.875 21h8.25a2.625 2.625 0 002.625-2.625V13.5" />
                                     </svg>
-
                                 </div>
 
+                                <div class="reports-upload-file-title">File saat ini</div>
+                                <div class="reports-upload-file-name">{{ $report->file_name }}</div>
+                                <div class="reports-upload-file-description">Klik area ini untuk mengganti file PDF</div>
 
-                                {{-- Current File --}}
-                                <div class="reports-upload-file-title">
-                                    File saat ini
-                                </div>
-
-                                <div class="reports-upload-file-name">
-                                    {{ $report->file_name }}
-                                </div>
-
-
-                                {{-- New File --}}
-                                <div class="reports-upload-file-description">
-                                    Klik area ini untuk mengganti file PDF
-                                </div>
-
-
-                                <input
-                                    id="file"
-                                    type="file"
-                                    name="file"
-                                    accept="application/pdf"
-                                    class="sr-only">
-
+                                <input id="file" type="file" name="file" accept="application/pdf" class="sr-only">
 
                             </label>
-
 
                             @error('file')
-                            <p class="reports-upload-error">
-                                {{ $message }}
-                            </p>
+                            <p class="reports-upload-error">{{ $message }}</p>
                             @enderror
 
                         </div>
@@ -465,15 +268,12 @@
                         {{-- ACTIONS --}}
                         <div class="reports-upload-actions">
 
-                            <a
-                                href="{{ route('reports.index') }}"
+                            
+                                <a href="{{ route('reports.index') }}"
                                 class="reports-cancel-button"
                                 :class="{ 'pointer-events-none opacity-50': isSubmitting }">
-
                                 Batal
-
                             </a>
-
 
                             <button
                                 type="submit"
@@ -481,34 +281,14 @@
                                 :disabled="isSubmitting"
                                 :class="{ 'opacity-60 cursor-not-allowed': isSubmitting }">
 
-                                <svg x-show="isSubmitting"
-                                    x-cloak
-                                    class="h-5 w-5 animate-spin"
-                                    viewBox="0 0 24 24"
-                                    fill="none">
+                                <svg x-show="isSubmitting" x-cloak class="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
                                 </svg>
 
-                                <svg
-                                    x-show="!isSubmitting"
-                                    class="h-5 w-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="2"
-                                    stroke="currentColor"
-                                    aria-hidden="true">
-
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 15.89a4.5 4.5 0 01-1.897 1.13L6 18l.98-2.685a4.5 4.5 0 011.13-1.897L16.862 4.487z" />
-
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M19.5 7.125L16.875 4.5" />
-
+                                <svg x-show="!isSubmitting" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 15.89a4.5 4.5 0 01-1.897 1.13L6 18l.98-2.685a4.5 4.5 0 011.13-1.897L16.862 4.487z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.125L16.875 4.5" />
                                 </svg>
 
                                 <span x-text="isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan'"></span>
